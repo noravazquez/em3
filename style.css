@@ -316,7 +316,7 @@ nav.solutek_menu span {
 
 .hero-area {
   height: 890px;
-  background: url(assets/images/hero_background.png);
+  background: url(assets/images/hero-bg.jpg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -832,7 +832,7 @@ h1.section-main-title2 {
 =======================================*/
 
 .contact-area {
-  background: url(assets/images/contact_thumb.jpg);
+  background: url(assets/images/contact-bg.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -5111,7 +5111,7 @@ start solutek team Area style-two
    solutek Breadcumb Area Css
 =========================================================---*/
 .breadcumb-area {
-  background: url(assets/images/inner/hero_background.png);
+  background: url(assets/images/inner/hero-bg.png);
   padding: 230px 0 170px;
   background-repeat: no-repeat;
   background-size: contain;
