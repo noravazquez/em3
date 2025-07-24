@@ -1,5 +1,10 @@
 <?php
+session_start();
 require_once '../config/connection.php';
+
+$db = new Connection();
+$conn = $db->connect();
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
@@ -8,9 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($email) || empty($password)) {
         die("Por favor completa todos los campos.");
     }
-
-    $db = new Connection();
-    $conn = $db->connect();
 
     $stmt = $conn->prepare("SELECT * FROM usuarios WHERE usuario = :email");
     $stmt->execute(['email' => $email]);
@@ -21,10 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute(['email' => $email, 'password' => $password]);
 
         if ($stmt->fetchColumn()) {
-            session_start();
             $_SESSION["id_usuario"] = $user["id_usuario"];
             $_SESSION["usuario"] = $user["usuario"];
-            echo "SUCCESS";
+            $_SESSION["id_rol"] = $user["id_rol_fk"];
+            header("Location: ../dashboard/dashboard.php");
+            exit;
         } else {
             echo "Contraseña incorrecta";
         }
