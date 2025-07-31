@@ -1,7 +1,9 @@
 <?php
 session_start();
 
-print_r($_SESSION);
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Pragma: no-cache");
+header("Expires: 0");
 
 if (isset($_SESSION['id_usuario'])) {
     header("Location: ./dashboard/dashboard.php");
