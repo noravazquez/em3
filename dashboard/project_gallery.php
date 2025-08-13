@@ -9,6 +9,10 @@ if (!isset($_SESSION['id_usuario'])) {
     header("Location: ../login.php");
     exit;
 }
+
+require_once '../modelo/categoria.php';
+
+$categorias = obtenerCategorias();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -99,7 +103,7 @@ if (!isset($_SESSION['id_usuario'])) {
                     <h1 class="text-3xl font-inter font-bold text-primary mb-2">Galería de proyectos</h1>
                 </div>
                 <div class="mt-4 sm:mt-0 flex space-x-3">
-                    <button class="btn-primary">
+                    <button class="btn-primary" id="open-add-project">
                         <div style="display: flex; align-items: center;">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -107,6 +111,69 @@ if (!isset($_SESSION['id_usuario'])) {
                             Nuevo Proyecto
                         </div>
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-add-project" class="fixed inset-0 z-50 hidden">
+            <div class="fixed inset-0 bg-primary/80 backdrop-blur-sm" id="modalOverlay"></div>
+            <div class="fixed inset-0 flex items-center justify-center p-4">
+                <div class="bg-surface rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto modal">
+                    <div class="p-6">
+                        <!-- Modal Header -->
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-2xl font-inter font-bold text-primary">Nuevo proyecto</h2>
+                            <button id="close-add-project" class="p-2 hover:bg-neutral-100 rounded-lg transition-colors">
+                                <svg class="w-6 h-6 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Modal Content -->
+                        <form method="POST" action="../modelo/proyecto.php" enctype="multipart/form-data" class="space-y-4">
+                            <div>
+                                <label for="name" class="block text-text-secondary mb-1">Nombre proyecto</label>
+                                <input type="text" id="name" name="nombre" placeholder="Ej. Ampliación terraza" class="input-field" required />
+                            </div>
+
+                            <div>
+                                <label for="description" class="block text-text-secondary mb-1">Descripción</label>
+                                <textarea id="description" name="descripcion" rows="3" placeholder="Descripción del proyecto..." class="input-field" required></textarea>
+                            </div>
+
+                            <div>
+                                <label for="category" class="block text-text-secondary mb-1">Categoría</label>
+                                <select id="category" name="id_categoria" class="input-field" required>
+                                    <?php foreach ($categorias as $categoria): ?>
+                                        <option value="<?= $categoria['id_categoria'] ?>">
+                                            <?= $categoria['categoria'] ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <!-- Image Upload -->
+                            <div class="border-2 border-dashed border-neutral-300 rounded-lg p-4 text-center cursor-pointer hover:border-accent transition-all">
+                                <input type="file" id="images" name="imagenes[]" accept="image/*" multiple class="hidden" />
+                                <label for="images" class="cursor-pointer flex flex-col items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-accent mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 15a4 4 0 014-4h1a4 4 0 018 0h1a4 4 0 110 8H7a4 4 0 01-4-4z" />
+                                    </svg>
+                                    <span class="text-sm text-text-secondary">Click o arrastra imágenes para subir</span>
+                                </label>
+                            </div>
+
+                            <!-- Preview container -->
+                            <div id="preview" class="mt-4 grid grid-cols-3 gap-3"></div>
+
+                            <!-- Actions -->
+                            <div class="flex justify-end space-x-3 pt-4">
+                                <button type="submit" class="btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -387,6 +454,108 @@ if (!isset($_SESSION['id_usuario'])) {
         }
 
         searchInput.addEventListener('input', filterProjects);
+
+        // Open modal to add 
+        const btnOpenAddProject = document.querySelector("#open-add-project");
+        const btnCloseAddProject = document.querySelector("#close-add-project");
+        const modalAddProject = document.querySelector("#modal-add-project");
+        const modalOverlay = document.getElementById('modalOverlay');
+
+        btnOpenAddProject.addEventListener("click", () => {
+            modalAddProject.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+
+        function closeModalHandlerAddProject() {
+            modalAddProject.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        btnCloseAddProject.addEventListener('click', closeModalHandlerAddProject);
+        modalOverlay.addEventListener('click', closeModalHandlerAddProject);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modalAddProject.classList.contains('hidden')) {
+                closeModalHandlerAddProject();
+            }
+        });
+
+        //Images preview
+        (function() {
+            const input = document.getElementById('images');
+            const label = document.querySelector('label[for="images"]');
+            const preview = document.getElementById('preview');
+
+            let selectedFiles = []; // array que guarda todos los archivos seleccionados
+
+            // Limpia input antes de abrir el selector para que el "change" siempre dispare aunque se seleccione el mismo archivo
+            label.addEventListener('click', () => {
+                input.value = '';
+            });
+
+            input.addEventListener('change', (event) => {
+                const files = Array.from(event.target.files);
+
+                files.forEach(file => {
+                    if (!file.type.startsWith('image/')) return;
+
+                    // Evitar duplicados por name+size+lastModified
+                    const exists = selectedFiles.some(f =>
+                        f.name === file.name && f.size === file.size && f.lastModified === file.lastModified
+                    );
+                    if (!exists) selectedFiles.push(file);
+                });
+
+                updatePreview();
+                updateInputFiles(); // sincroniza input.files con selectedFiles
+            });
+
+            function updatePreview() {
+                preview.innerHTML = '';
+
+                selectedFiles.forEach((file, index) => {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'relative';
+
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = file.name;
+                        img.className = 'w-full h-32 object-cover rounded-lg shadow';
+
+                        // Botón para eliminar imagen
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.innerHTML = '&times;';
+                        btn.setAttribute('aria-label', 'Eliminar imagen');
+                        btn.className = 'absolute top-1 right-1 bg-white rounded-full p-1 shadow';
+                        btn.addEventListener('click', () => removeFile(index));
+
+                        wrapper.appendChild(img);
+                        wrapper.appendChild(btn);
+                        preview.appendChild(wrapper);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            function updateInputFiles() {
+                // Reconstruye un FileList a partir de selectedFiles usando DataTransfer
+                const dataTransfer = new DataTransfer();
+                selectedFiles.forEach(f => dataTransfer.items.add(f));
+                input.files = dataTransfer.files;
+            }
+
+            function removeFile(index) {
+                selectedFiles.splice(index, 1);
+                updatePreview();
+                updateInputFiles();
+            }
+
+            // Opcional: prevenir que el formulario tenga input vacío si no hay archivos
+            // Si quieres validar en cliente que al menos 1 archivo exista, lo puedes hacer aquí.
+        })();
     </script>
 </body>
 
