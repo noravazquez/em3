@@ -1,18 +1,18 @@
 <?php
-session_start();
+// session_start();
 
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Pragma: no-cache");
-header("Expires: 0");
+// header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+// header("Pragma: no-cache");
+// header("Expires: 0");
 
-if (!isset($_SESSION['id_usuario'])) {
-    header("Location: ../login.php");
-    exit;
-}
+// if (!isset($_SESSION['id_usuario'])) {
+//     header("Location: ../login.php");
+//     exit;
+// }
 
-require_once '../modelo/categoria.php';
+// require_once '../modelo/categoria.php';
 
-$categorias = obtenerCategorias();
+// $categorias = obtenerCategorias();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -166,7 +166,7 @@ $categorias = obtenerCategorias();
                             </div>
 
                             <!-- Preview container -->
-                            <div id="preview" class="mt-4 grid grid-cols-3 gap-3"></div>
+                            <div id="preview" class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
 
                             <!-- Actions -->
                             <div class="flex justify-end space-x-3 pt-4">
@@ -368,6 +368,7 @@ $categorias = obtenerCategorias();
     </main>
 
     <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         // Project data
         const projectData = {
@@ -482,6 +483,7 @@ $categorias = obtenerCategorias();
 
         //Images preview
         (function() {
+            const form = document.querySelector('form');
             const input = document.getElementById('images');
             const label = document.querySelector('label[for="images"]');
             const preview = document.getElementById('preview');
@@ -515,21 +517,19 @@ $categorias = obtenerCategorias();
 
                 selectedFiles.forEach((file, index) => {
                     const wrapper = document.createElement('div');
-                    wrapper.className = 'relative';
+                    wrapper.className = 'preview-wrapper';
 
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         const img = document.createElement('img');
                         img.src = e.target.result;
                         img.alt = file.name;
-                        img.className = 'w-full h-32 object-cover rounded-lg shadow';
+                        img.className = 'preview-img';
 
-                        // Botón para eliminar imagen
                         const btn = document.createElement('button');
                         btn.type = 'button';
                         btn.innerHTML = '&times;';
-                        btn.setAttribute('aria-label', 'Eliminar imagen');
-                        btn.className = 'absolute top-1 right-1 bg-white rounded-full p-1 shadow';
+                        btn.className = 'remove-btn';
                         btn.addEventListener('click', () => removeFile(index));
 
                         wrapper.appendChild(img);
@@ -553,8 +553,18 @@ $categorias = obtenerCategorias();
                 updateInputFiles();
             }
 
-            // Opcional: prevenir que el formulario tenga input vacío si no hay archivos
-            // Si quieres validar en cliente que al menos 1 archivo exista, lo puedes hacer aquí.
+            form.addEventListener('submit', function(e) {
+                if (selectedFiles.length === 0) {
+                    e.preventDefault();
+                    Swal.fire({
+                        title: "Estimado usuario.",
+                        text: "Por favor, seleccione por lo menos una imagen antes de guardar.",
+                        icon: "warning",
+                        showCloseButton: true,
+                        showConfirmButton: false
+                    });
+                }
+            });
         })();
     </script>
 </body>

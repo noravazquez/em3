@@ -1859,7 +1859,41 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/** Modal css **/
-/* #modal-add-project::backdrop {
-  background-color: rgba(0, 0, 0, 0.95);
-} */
+/* Vista previa de imágenes */
+.preview-img {
+  width: 100%;
+  height: 8rem; /* Equivalente a h-32 de Tailwind */
+  object-fit: cover;
+  border-radius: 0.5rem; /* rounded-lg */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Contenedor de imagen con botón */
+.preview-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Botón de eliminar */
+.remove-btn {
+  position: absolute;
+  top: 0.4rem; /* un poco separado del borde */
+  right: 0.4rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 9999px;
+  width: 2rem;
+  height: 2rem;
+  font-size: 1.25rem;
+  line-height: 1.25rem;
+  text-align: center;
+  color: #ff3c00; /* tu color accent */
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.remove-btn:hover {
+  background-color: #ff3c00;
+  color: #fff;
+  transform: scale(1.1);
+}

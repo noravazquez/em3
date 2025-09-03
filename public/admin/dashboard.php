@@ -1,11 +1,12 @@
 <?php
-session_start();
+require_once "../../config/database.php";
+require_once "../../lib/auth.php";
 
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Pragma: no-cache");
 header("Expires: 0");
 
-if (!isset($_SESSION['id_usuario'])) {
+if (!checkAuth()) {
     header("Location: ../login.php");
     exit;
 }
@@ -65,7 +66,7 @@ if (!isset($_SESSION['id_usuario'])) {
 
                         <!-- Dropdown Menu -->
                         <div id="userDropdown" class="hidden absolute right-0 mt-2 w-48 bg-surface rounded-lg architectural-shadow-strong py-1 z-50">
-                            <a href="../modelo/logout.php" class="block px-4 py-2 text-sm text-error hover:bg-neutral-50">Cerrar sesión</a>
+                            <a href="../logout.php" class="block px-4 py-2 text-sm text-error hover:bg-neutral-50">Cerrar sesión</a>
                         </div>
                     </div>
 
