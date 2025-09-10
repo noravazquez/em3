@@ -82,11 +82,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <!-- Login Form -->
                 <form id="loginForm" class="space-y-6" method="POST">
-                    <!-- Email Field -->
+                    <!-- User Field -->
                     <div>
-                        <label for="email" class="block text-sm font-medium text-text-primary mb-2">CORREO ELECTRONICO</label>
+                        <label for="usuario" class="block text-sm font-medium text-text-primary mb-2">USUARIO</label>
                         <div class="relative">
-                            <input type="email" id="email" name="usuario" class="input-field pl-12" placeholder="Ingresa tu correo" required />
+                            <input type="text" id="usuario" name="usuario" class="input-field pl-12" placeholder="Ingresa tu usuario" required />
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <svg class="h-5 w-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />

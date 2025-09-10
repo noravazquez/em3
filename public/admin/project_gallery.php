@@ -1,18 +1,21 @@
 <?php
-// session_start();
+require_once "../../config/database.php";
+require_once "../../lib/auth.php";
+require_once "../../lib/projects.php";
+require_once "../../lib/imagenes.php";
+require_once "../../lib/categories.php";
 
-// header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-// header("Pragma: no-cache");
-// header("Expires: 0");
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Pragma: no-cache");
+header("Expires: 0");
 
-// if (!isset($_SESSION['id_usuario'])) {
-//     header("Location: ../login.php");
-//     exit;
-// }
+if (!checkAuth()) {
+    header("Location: ../login.php");
+    exit;
+}
 
-// require_once '../modelo/categoria.php';
-
-// $categorias = obtenerCategorias();
+$projects = getAllProjects($db, $_SESSION['id_rol']);
+$categorias = getAllCategories($db);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -131,7 +134,7 @@
                         </div>
 
                         <!-- Modal Content -->
-                        <form method="POST" action="../modelo/proyecto.php" enctype="multipart/form-data" class="space-y-4">
+                        <form method="POST" action="./project_gallery/add_projec.php" enctype="multipart/form-data" class="space-y-4">
                             <div>
                                 <label for="name" class="block text-text-secondary mb-1">Nombre proyecto</label>
                                 <input type="text" id="name" name="nombre" placeholder="Ej. Ampliación terraza" class="input-field" required />
@@ -197,170 +200,125 @@
             </div>
         </div>
 
+        <?php if (isset($_GET['success'])): ?>
+            <div class="alert-success">Proyecto agregado correctamente ✅</div>
+        <?php elseif (isset($_GET['error'])): ?>
+            <div class="alert-error">Ocurrió un error al guardar el proyecto ❌</div>
+        <?php endif; ?>
+
         <!-- Project Gallery Grid -->
         <div id="projectGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Project Card 1 -->
-            <div class="project-card card group cursor-pointer" data-category="commercial" data-status="completed" data-project="skyline-tower">
-                <div class="relative overflow-hidden rounded-lg mb-4">
-                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Skyline Tower" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <?php if (empty($projects)): ?>
+                <div>
+                    <h1 class="text-2xl font-inter font-semibold text-secondary">No hay proyectos disponibles</h1>
                 </div>
-                <div class="space-y-2">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-lg font-inter font-semibold text-primary">Proyecto 1</h3>
-                        <span class="text-sm text-text-secondary">Categoria</span>
-                    </div>
-                    <p class="text-sm text-text-secondary">Descripcion.</p>
-                    <div class="flex items-center justify-between pt-2">
-                        <div class="flex items-center space-x-2">
-                            <span class="text-xs text-text-secondary">Usuario agrego</span>
+            <?php else: ?>
+                <?php foreach ($projects as $p): ?>
+                    <?php
+                    $images = getImagesByProject($db, $p['id_proyecto'], $_SESSION['id_rol']);
+                    $thumbnail = !empty($images) ? "proyectos/" . $p['id_proyecto'] . "/" . $images[0]['nombre_archivo'] : "no-imagen.jpg";
+                    $fechaObj = new DateTime($p['fecha_creacion']);
+                    $fechaFormateada = $fechaObj->format('d/m/Y H:i');
+                    ?>
+                    <div class="project-card card group cursor-pointer" data-category="<?= htmlspecialchars($p['categoria']); ?>">
+                        <div class="relative overflow-hidden rounded-lg mb-4">
+                            <img src="./project_gallery/uploads/<?= htmlspecialchars($thumbnail); ?>" alt="<?= htmlspecialchars($p['nombre']); ?>" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='./project_gallery/uploads/no-imagen.jpg'; this.onerror=null;" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         </div>
-                        <span class="text-xs text-text-secondary">Jan 2024</span>
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-inter font-semibold text-primary"><?= htmlspecialchars($p['nombre']); ?></h3>
+                                <p class="text-sm text-text-secondary"><?= htmlspecialchars($p['categoria']); ?></p>
+                            </div>
+                            <div class="flex items-center justify-between pt-2">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-xs text-text-secondary"><?= htmlspecialchars($p['usuario_creador']); ?></span>
+                                </div>
+                                <span class="text-xs text-text-secondary"><?= htmlspecialchars($fechaFormateada); ?></span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-center gap-3 pt-2">
+                            <button
+                                class="btn-primary open-edit-project"
+                                data-id="<?= $p['id_proyecto']; ?>"
+                                data-nombre="<?= htmlspecialchars($p['nombre']); ?>"
+                                data-descripcion="<?= htmlspecialchars($p['descripcion']); ?>"
+                                data-categoria="<?= $p['id_categoria']; ?>"
+                                data-images='<?= json_encode($images); ?>'>
+                                Editar
+                            </button>
+                            <!-- <a href="delete_project.php?id=<?= $p['id_proyecto']; ?>" class="btn-secondary"
+                                onclick="return confirm('¿Seguro que quieres eliminar este proyecto?');">Eliminar</a> -->
+                        </div>
                     </div>
-                </div>
-            </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
 
-            <!-- Project Card 2 -->
-            <div class="project-card card group cursor-pointer" data-category="residential" data-status="completed" data-project="harmony-residence">
-                <div class="relative overflow-hidden rounded-lg mb-4">
-                    <img src="https://images.pexels.com/photos/1109541/pexels-photo-1109541.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Harmony Residence" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://images.pixabay.com/photo/2016/11/29/03/53/architecture-1867187_1280.jpg'; this.onerror=null;" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div class="absolute top-4 right-4">
-                        <span class="px-2 py-1 bg-success text-white text-xs font-medium rounded-full">Completed</span>
-                    </div>
-                    <div class="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <h3 class="text-lg font-inter font-semibold mb-1">Harmony Residence</h3>
-                        <p class="text-sm opacity-90">8,500 sq ft • 2024</p>
-                    </div>
-                </div>
-                <div class="space-y-2">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-lg font-inter font-semibold text-primary">Harmony Residence</h3>
-                        <span class="text-sm text-text-secondary">Residential</span>
-                    </div>
-                    <p class="text-sm text-text-secondary">Luxury family home featuring open-concept living and seamless indoor-outdoor integration.</p>
-                    <div class="flex items-center justify-between pt-2">
-                        <div class="flex items-center space-x-2">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Team Member" class="w-6 h-6 rounded-full object-cover" onerror="this.src='https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
-                            <span class="text-xs text-text-secondary">Michael Torres</span>
+        <div id="modal-edit-project" class="fixed inset-0 z-50 hidden">
+            <div class="fixed inset-0 bg-primary/80 backdrop-blur-sm" id="modalOverlayEdit"></div>
+            <div class="fixed inset-0 flex items-center justify-center p-4">
+                <div class="bg-surface rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto modal">
+                    <div class="p-6">
+                        <!-- Modal Header -->
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-2xl font-inter font-bold text-primary">Editar proyecto</h2>
+                            <button id="close-edit-project" class="p-2 hover:bg-neutral-100 rounded-lg transition-colors">
+                                <svg class="w-6 h-6 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                         </div>
-                        <span class="text-xs text-text-secondary">Mar 2024</span>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Project Card 3 -->
-            <div class="project-card card group cursor-pointer" data-category="institutional" data-status="in-progress" data-project="innovation-center">
-                <div class="relative overflow-hidden rounded-lg mb-4">
-                    <img src="https://images.pixabay.com/photo/2017/07/09/03/19/home-2486092_1280.jpg" alt="Innovation Center" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div class="absolute top-4 right-4">
-                        <span class="px-2 py-1 bg-warning text-white text-xs font-medium rounded-full">In Progress</span>
-                    </div>
-                    <div class="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <h3 class="text-lg font-inter font-semibold mb-1">Innovation Center</h3>
-                        <p class="text-sm opacity-90">32,000 sq ft • 2025</p>
-                    </div>
-                </div>
-                <div class="space-y-2">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-lg font-inter font-semibold text-primary">Innovation Center</h3>
-                        <span class="text-sm text-text-secondary">Institutional</span>
-                    </div>
-                    <p class="text-sm text-text-secondary">State-of-the-art research facility promoting collaboration and technological advancement.</p>
-                    <div class="flex items-center justify-between pt-2">
-                        <div class="flex items-center space-x-2">
-                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b5bc?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Team Member" class="w-6 h-6 rounded-full object-cover" onerror="this.src='https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
-                            <span class="text-xs text-text-secondary">Elena Rodriguez</span>
-                        </div>
-                        <span class="text-xs text-text-secondary">Dec 2024</span>
-                    </div>
-                </div>
-            </div>
+                        <!-- Modal Content -->
+                        <form id="editForm" method="POST" action="./project_gallery/edit_project.php" enctype="multipart/form-data" class="space-y-4">
+                            <input type="hidden" name="id_proyecto" id="edit-id" class="input-field">
+                            <div>
+                                <label for="edit-nombre" class="block text-text-secondary mb-1">Nombre proyecto</label>
+                                <input type="text" name="nombre" id="edit-nombre" placeholder="Ej. Ampliación terraza" class="input-field" required />
+                            </div>
 
-            <!-- Project Card 4 -->
-            <div class="project-card card group cursor-pointer" data-category="commercial" data-status="completed" data-project="urban-plaza">
-                <div class="relative overflow-hidden rounded-lg mb-4">
-                    <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Urban Plaza" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://images.pexels.com/photos/1109541/pexels-photo-1109541.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div class="absolute top-4 right-4">
-                        <span class="px-2 py-1 bg-success text-white text-xs font-medium rounded-full">Completed</span>
-                    </div>
-                    <div class="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <h3 class="text-lg font-inter font-semibold mb-1">Urban Plaza</h3>
-                        <p class="text-sm opacity-90">28,000 sq ft • 2023</p>
-                    </div>
-                </div>
-                <div class="space-y-2">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-lg font-inter font-semibold text-primary">Urban Plaza</h3>
-                        <span class="text-sm text-text-secondary">Commercial</span>
-                    </div>
-                    <p class="text-sm text-text-secondary">Mixed-use development creating vibrant community spaces with retail and office components.</p>
-                    <div class="flex items-center justify-between pt-2">
-                        <div class="flex items-center space-x-2">
-                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Team Member" class="w-6 h-6 rounded-full object-cover" onerror="this.src='https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
-                            <span class="text-xs text-text-secondary">David Kim</span>
-                        </div>
-                        <span class="text-xs text-text-secondary">Sep 2023</span>
-                    </div>
-                </div>
-            </div>
+                            <div>
+                                <label for="edit-descripcion" class="block text-text-secondary mb-1">Descripción</label>
+                                <textarea name="descripcion" id="edit-descripcion" rows="3" placeholder="Descripción del proyecto..." class="input-field" required></textarea>
+                            </div>
 
-            <!-- Project Card 5 -->
-            <div class="project-card card group cursor-pointer" data-category="residential" data-status="planning" data-project="eco-village">
-                <div class="relative overflow-hidden rounded-lg mb-4">
-                    <img src="https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Eco Village" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://images.pixabay.com/photo/2016/11/29/03/53/architecture-1867187_1280.jpg'; this.onerror=null;" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div class="absolute top-4 right-4">
-                        <span class="px-2 py-1 bg-accent text-white text-xs font-medium rounded-full">Planning</span>
-                    </div>
-                    <div class="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <h3 class="text-lg font-inter font-semibold mb-1">Eco Village</h3>
-                        <p class="text-sm opacity-90">125,000 sq ft • 2025</p>
-                    </div>
-                </div>
-                <div class="space-y-2">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-lg font-inter font-semibold text-primary">Eco Village</h3>
-                        <span class="text-sm text-text-secondary">Residential</span>
-                    </div>
-                    <p class="text-sm text-text-secondary">Sustainable community development featuring net-zero energy homes and shared green spaces.</p>
-                    <div class="flex items-center justify-between pt-2">
-                        <div class="flex items-center space-x-2">
-                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b5bc?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Team Member" class="w-6 h-6 rounded-full object-cover" onerror="this.src='https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
-                            <span class="text-xs text-text-secondary">Lisa Wang</span>
-                        </div>
-                        <span class="text-xs text-text-secondary">Q2 2025</span>
-                    </div>
-                </div>
-            </div>
+                            <div>
+                                <label for="edit-categoria" class="block text-text-secondary mb-1">Categoría</label>
+                                <select name="id_categoria" id="edit-categoria" class="input-field" required>
+                                    <?php foreach ($categorias as $categoria): ?>
+                                        <option value="<?= $categoria['id_categoria'] ?>">
+                                            <?= $categoria['categoria'] ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
 
-            <!-- Project Card 6 -->
-            <div class="project-card card group cursor-pointer" data-category="institutional" data-status="in-progress" data-project="cultural-center">
-                <div class="relative overflow-hidden rounded-lg mb-4">
-                    <img src="https://images.pixabay.com/photo/2016/11/29/03/53/architecture-1867187_1280.jpg" alt="Cultural Center" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div class="absolute top-4 right-4">
-                        <span class="px-2 py-1 bg-warning text-white text-xs font-medium rounded-full">In Progress</span>
-                    </div>
-                    <div class="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <h3 class="text-lg font-inter font-semibold mb-1">Cultural Center</h3>
-                        <p class="text-sm opacity-90">18,500 sq ft • 2024</p>
-                    </div>
-                </div>
-                <div class="space-y-2">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-lg font-inter font-semibold text-primary">Cultural Center</h3>
-                        <span class="text-sm text-text-secondary">Institutional</span>
-                    </div>
-                    <p class="text-sm text-text-secondary">Community arts facility with performance spaces, galleries, and educational workshops.</p>
-                    <div class="flex items-center justify-between pt-2">
-                        <div class="flex items-center space-x-2">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Team Member" class="w-6 h-6 rounded-full object-cover" onerror="this.src='https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
-                            <span class="text-xs text-text-secondary">James Park</span>
-                        </div>
-                        <span class="text-xs text-text-secondary">Nov 2024</span>
+                            <div>
+                                <label class="block text-text-secondary mb-1">Imágenes actuales</label>
+                                <div id="edit-current-images" class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+                            </div>
+
+                            <!-- Image Upload -->
+                            <div class="border-2 border-dashed border-neutral-300 rounded-lg p-4 text-center cursor-pointer hover:border-accent transition-all">
+                                <input type="file" id="edit-images" name="imagenes[]" accept="image/*" multiple class="hidden" />
+                                <label for="edit-images" class="cursor-pointer flex flex-col items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-accent mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 15a4 4 0 014-4h1a4 4 0 018 0h1a4 4 0 110 8H7a4 4 0 01-4-4z" />
+                                    </svg>
+                                    <span class="text-sm text-text-secondary">Click o arrastra imágenes para subir</span>
+                                </label>
+                            </div>
+
+                            <!-- Preview container -->
+                            <div id="edit-preview" class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+
+                            <!-- Actions -->
+                            <div class="flex justify-end space-x-3 pt-4">
+                                <button type="submit" class="btn-primary">Guardar</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -370,43 +328,6 @@
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        // Project data
-        const projectData = {
-            'skyline-tower': {
-                title: 'Skyline Tower',
-                category: 'Commercial',
-                status: 'Completed',
-                size: '45,000 sq ft',
-                completion: 'January 2024',
-                teamName: 'Sarah Chen',
-                teamImage: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                mainImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                description: 'A modern office complex featuring sustainable design principles, innovative workspace solutions, and cutting-edge technology integration. The building incorporates energy-efficient systems, natural lighting optimization, and flexible floor plans to accommodate evolving business needs.'
-            },
-            'harmony-residence': {
-                title: 'Harmony Residence',
-                category: 'Residential',
-                status: 'Completed',
-                size: '8,500 sq ft',
-                completion: 'March 2024',
-                teamName: 'Michael Torres',
-                teamImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                mainImage: 'https://images.pexels.com/photos/1109541/pexels-photo-1109541.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-                description: 'A luxury family home designed with open-concept living spaces and seamless indoor-outdoor integration. Features include a gourmet kitchen, spa-like master suite, and entertainment areas that flow naturally into landscaped outdoor spaces.'
-            },
-            'innovation-center': {
-                title: 'Innovation Center',
-                category: 'Institutional',
-                status: 'In Progress',
-                size: '32,000 sq ft',
-                completion: 'December 2024',
-                teamName: 'Elena Rodriguez',
-                teamImage: 'https://images.unsplash.com/photo-1494790108755-2616b612b5bc?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                mainImage: 'https://images.pixabay.com/photo/2017/07/09/03/19/home-2486092_1280.jpg',
-                description: 'A state-of-the-art research facility designed to promote collaboration and technological advancement. The building features flexible laboratory spaces, collaborative work areas, and advanced infrastructure to support cutting-edge research initiatives.'
-            }
-        };
-
         // User menu dropdown
         document.getElementById('userMenuButton').addEventListener('click', function() {
             const dropdown = document.getElementById('userDropdown');
@@ -438,15 +359,11 @@
 
             projectCards.forEach(card => {
                 const title = card.querySelector('h3').textContent.toLowerCase();
-                const description = card.querySelector('p').textContent.toLowerCase();
-                const category = card.dataset.category;
-                const status = card.dataset.status;
+                const category = card.querySelector('p').textContent.toLowerCase();
 
-                const matchesSearch = title.includes(searchTerm) || description.includes(searchTerm);
-                const matchesCategory = !categoryValue || category === categoryValue;
-                const matchesStatus = !statusValue || status === statusValue;
+                const matchesSearch = title.includes(searchTerm) || category.includes(searchTerm);
 
-                if (matchesSearch && matchesCategory && matchesStatus) {
+                if (matchesSearch) {
                     card.style.display = 'block';
                 } else {
                     card.style.display = 'none';
@@ -475,9 +392,80 @@
         btnCloseAddProject.addEventListener('click', closeModalHandlerAddProject);
         modalOverlay.addEventListener('click', closeModalHandlerAddProject);
 
+        const modalEditProject = document.getElementById('modal-edit-project');
+        const modalOverlayEdit = document.getElementById('modalOverlayEdit');
+        const btnCloseEdit = document.getElementById('close-edit-project');
+
+        // Open modal to edit project
+        document.querySelectorAll('.open-edit-project').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.dataset.id;
+                const nombre = btn.dataset.nombre;
+                const descripcion = btn.dataset.descripcion;
+                const categoria = btn.dataset.categoria;
+
+                // rellenar el formulario
+                document.getElementById('edit-id').value = id;
+                document.getElementById('edit-nombre').value = nombre;
+                document.getElementById('edit-descripcion').value = descripcion;
+                document.getElementById('edit-categoria').value = categoria;
+
+                // cargar imágenes actuales
+                const imagesContainer = document.getElementById('edit-current-images');
+                imagesContainer.innerHTML = '';
+
+                const images = JSON.parse(btn.dataset.images || '[]');
+
+                if (images.length === 0) {
+                    imagesContainer.innerHTML = '<p>No hay imágenes para este proyecto.</p>';
+                } else {
+                    images.forEach(img => {
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'relative rounded-lg overflow-hidden border group w-full h-32';
+
+                        // Imagen
+                        const imageEl = document.createElement('img');
+                        imageEl.src = `./project_gallery/uploads/proyectos/${img.id_proyecto_fk}/${img.nombre_archivo}`;
+                        imageEl.className = 'w-full h-full object-cover';
+
+                        // Checkbox en misma posición que la "x"
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.name = 'eliminar_imagenes[]';
+                        checkbox.value = img.id_imagen;
+                        checkbox.className = 'form-check-input';
+                        checkbox.style.position = "absolute";
+                        checkbox.style.top = "8px";
+                        checkbox.style.right = "8px";
+                        checkbox.style.width = "20px";
+                        checkbox.style.height = "20px";
+                        checkbox.style.zIndex = "50"; // 🔑 asegura que quede arriba
+                        checkbox.style.background = "white";
+
+                        wrapper.appendChild(imageEl);
+                        wrapper.appendChild(checkbox);
+                        imagesContainer.appendChild(wrapper);
+                    });
+                }
+
+                // mostrar modal
+                modalEditProject.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        function closeEditModal() {
+            modalEditProject.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+        modalOverlayEdit.addEventListener('click', closeEditModal);
+        btnCloseEdit.addEventListener('click', closeEditModal);
+
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && !modalAddProject.classList.contains('hidden')) {
                 closeModalHandlerAddProject();
+            } else if (e.key === 'Escape' && !modalEditProject.classList.contains('hidden')) {
+                closeEditModal();
             }
         });
 
@@ -559,6 +547,94 @@
                     Swal.fire({
                         title: "Estimado usuario.",
                         text: "Por favor, seleccione por lo menos una imagen antes de guardar.",
+                        icon: "warning",
+                        showCloseButton: true,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        })();
+
+        (function() {
+            const form = document.getElementById('editForm');
+            const input = document.getElementById('edit-images');
+            const label = document.querySelector('label[for="edit-images"]');
+            const preview = document.getElementById('edit-preview');
+
+            let selectedFiles = []; // array que guarda todos los archivos seleccionados
+
+            // Limpia input antes de abrir el selector para que el "change" siempre dispare aunque se seleccione el mismo archivo
+            label.addEventListener('click', () => {
+                input.value = '';
+            });
+
+            input.addEventListener('change', (event) => {
+                const files = Array.from(event.target.files);
+
+                files.forEach(file => {
+                    if (!file.type.startsWith('image/')) return;
+
+                    // Evitar duplicados por name+size+lastModified
+                    const exists = selectedFiles.some(f =>
+                        f.name === file.name && f.size === file.size && f.lastModified === file.lastModified
+                    );
+                    if (!exists) selectedFiles.push(file);
+                });
+
+                updatePreview();
+                updateInputFiles(); // sincroniza input.files con selectedFiles
+            });
+
+            function updatePreview() {
+                preview.innerHTML = '';
+
+                selectedFiles.forEach((file, index) => {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'preview-wrapper';
+
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = file.name;
+                        img.className = 'preview-img';
+
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.innerHTML = '&times;';
+                        btn.className = 'remove-btn';
+                        btn.addEventListener('click', () => removeFile(index));
+
+                        wrapper.appendChild(img);
+                        wrapper.appendChild(btn);
+                        preview.appendChild(wrapper);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            function updateInputFiles() {
+                // Reconstruye un FileList a partir de selectedFiles usando DataTransfer
+                const dataTransfer = new DataTransfer();
+                selectedFiles.forEach(f => dataTransfer.items.add(f));
+                input.files = dataTransfer.files;
+            }
+
+            function removeFile(index) {
+                selectedFiles.splice(index, 1);
+                updatePreview();
+                updateInputFiles();
+            }
+
+            form.addEventListener('submit', function(e) {
+                const totalImagenesActuales = form.querySelectorAll('#edit-current-images input[type="checkbox"]:not(:checked)').length;
+                const totalNuevas = selectedFiles.length;
+
+                if ((totalImagenesActuales + totalNuevas) === 0) {
+                    e.preventDefault();
+                    Swal.fire({
+                        title: "Estimado usuario.",
+                        text: "El proyecto debe tener al menos una imagen.",
                         icon: "warning",
                         showCloseButton: true,
                         showConfirmButton: false

@@ -2,18 +2,38 @@
 function getAllProjects($db, $id_rol)
 {
     if ($id_rol == 1) {
-        $stmt = $db->query("SELECT p.id_proyecto, p.nombre, p.descripcion, 
-            c.id_categoria, c.categoria, p.fecha_creacion, 
-            p.fecha_modificacion, p.usuario_creacion, 
-            p.usuario_modificacion, p.estado FROM proyectos p 
+        $stmt = $db->query("SELECT 
+                p.id_proyecto,
+                p.nombre,
+                p.descripcion,
+                c.id_categoria,
+                c.categoria,
+                p.fecha_creacion,
+                p.fecha_modificacion,
+                u.usuario AS usuario_creador,
+                u2.usuario AS usuario_modificador,
+                p.estado
+            FROM proyectos p
             INNER JOIN categorias c ON p.id_categoria_fk = c.id_categoria
+            INNER JOIN usuarios u ON p.usuario_creacion = u.id_usuario
+            LEFT JOIN usuarios u2 ON p.usuario_modificacion = u2.id_usuario
             ORDER BY p.fecha_creacion DESC");
     } else {
-        $stmt = $db->query("SELECT p.id_proyecto, p.nombre, p.descripcion, 
-            c.id_categoria, c.categoria, p.fecha_creacion, 
-            p.fecha_modificacion, p.usuario_creacion, 
-            p.usuario_modificacion, p.estado FROM proyectos p 
-            INNER JOIN categorias c ON p.id_categoria_fk = c.id_categoria 
+        $stmt = $db->query("SELECT 
+                p.id_proyecto,
+                p.nombre,
+                p.descripcion,
+                c.id_categoria,
+                c.categoria,
+                p.fecha_creacion,
+                p.fecha_modificacion,
+                u.usuario AS usuario_creador,
+                u2.usuario AS usuario_modificador,
+                p.estado
+            FROM proyectos p
+            INNER JOIN categorias c ON p.id_categoria_fk = c.id_categoria
+            INNER JOIN usuarios u ON p.usuario_creacion = u.id_usuario
+            LEFT JOIN usuarios u2 ON p.usuario_modificacion = u2.id_usuario
             WHERE p.estado = 'A' ORDER BY p.fecha_creacion DESC");
     }
 
@@ -22,11 +42,21 @@ function getAllProjects($db, $id_rol)
 
 function getProjectById($db, $id)
 {
-    $stmt = $db->prepare("SELECT p.id_proyecto, p.nombre, p.descripcion, 
-            c.id_categoria, c.categoria, p.fecha_creacion, 
-            p.fecha_modificacion, p.usuario_creacion, 
-            p.usuario_modificacion, p.estado FROM proyectos p 
-            INNER JOIN categorias c ON p.id_categoria_fk = c.id_categoria 
+    $stmt = $db->prepare("SELECT 
+                p.id_proyecto,
+                p.nombre,
+                p.descripcion,
+                c.id_categoria,
+                c.categoria,
+                p.fecha_creacion,
+                p.fecha_modificacion,
+                u.usuario AS usuario_creador,
+                u2.usuario AS usuario_modificador,
+                p.estado
+            FROM proyectos p
+            INNER JOIN categorias c ON p.id_categoria_fk = c.id_categoria
+            INNER JOIN usuarios u ON p.usuario_creacion = u.id_usuario
+            LEFT JOIN usuarios u2 ON p.usuario_modificacion = u2.id_usuario
             WHERE p.id_proyecto = :id LIMIT 1");
     $stmt->execute(['id' => $id]);
     return $stmt->fetch(PDO::FETCH_ASSOC);

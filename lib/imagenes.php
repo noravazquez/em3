@@ -2,11 +2,35 @@
 function getImagesByProject($db, $id_proyecto, $id_rol)
 {
     if ($id_rol == 1) {
-        $stmt = $db->prepare("SELECT * FROM imagenes WHERE id_proyecto_fk = :id_proyecto_fk");
+        $stmt = $db->prepare("SELECT 
+            i.id_imagen,
+            i.nombre_archivo,
+            i.id_proyecto_fk,
+            i.fecha_creacion,
+            i.fecha_modificacion,
+            u.usuario AS usuario_creador,
+            u2.usuario AS usuario_modificador,
+            i.estado
+        FROM imagenes i
+        INNER JOIN usuarios u ON i.usuario_creacion = u.id_usuario
+        LEFT JOIN usuarios u2 ON i.usuario_modificacion = u2.id_usuario 
+        WHERE id_proyecto_fk = :id_proyecto_fk");
     } else {
-        $stmt = $db->prepare("SELECT * FROM imagenes WHERE id_proyecto_fk = :id_proyecto_fk AND estado = 'A'");
+        $stmt = $db->prepare("SELECT 
+            i.id_imagen,
+            i.nombre_archivo,
+            i.id_proyecto_fk,
+            i.fecha_creacion,
+            i.fecha_modificacion,
+            u.usuario AS usuario_creador,
+            u2.usuario AS usuario_modificador,
+            i.estado
+        FROM imagenes i
+        INNER JOIN usuarios u ON i.usuario_creacion = u.id_usuario
+        LEFT JOIN usuarios u2 ON i.usuario_modificacion = u2.id_usuario 
+        WHERE id_proyecto_fk = :id_proyecto_fk AND estado = 'A'");
     }
-    $stmt->execute(['id' => $id_proyecto]);
+    $stmt->execute(['id_proyecto_fk' => $id_proyecto]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
@@ -26,12 +50,25 @@ function addImage($db, $id_proyecto, $filename, $id_usuario)
 function deleteImage($db, $id_imagen, $id_usuario, $id_rol)
 {
     if ($id_rol == 1) {
+        $stmt = $db->prepare("SELECT id_proyecto_fk, nombre_archivo FROM imagenes WHERE id_imagen = :id_imagen");
+        $stmt->execute(['id_imagen' => $id_imagen]);
+        $imagen = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($imagen) {
+            $filePath = __DIR__ . "/../public/admin/project_gallery/uploads/proyectos/" . $imagen['id_proyecto_fk'] . "/" . $imagen['nombre_archivo'];
+
+            // Si existe el archivo, lo borramos
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+        }
+        
         $stmt = $db->prepare("
-        DELETE FROM imagenes
+            DELETE FROM imagenes
             WHERE id_imagen = :id_imagen
         ");
         $result = $stmt->execute([
-            'id'      => $id_imagen
+            'id_imagen' => $id_imagen
         ]);
     } else {
         $stmt = $db->prepare("
@@ -42,7 +79,7 @@ function deleteImage($db, $id_imagen, $id_usuario, $id_rol)
             WHERE id_imagen = :id_imagen
         ");
         $result = $stmt->execute([
-            'id'      => $id_imagen,
+            'id_imagen'      => $id_imagen,
             'usuario' => $id_usuario,
         ]);
     }
