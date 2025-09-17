@@ -454,6 +454,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         const projectTitle = document.getElementById('project-title');
         const projectDescription = document.getElementById('project-description');
+        const projectThumbs = document.getElementById('project-thumbs');
 
         document.querySelectorAll('.open-project').forEach(btn => {
             btn.addEventListener('click', function (e) {
@@ -466,24 +467,18 @@
                 projectTitle.textContent = nombre;
                 projectDescription.textContent = descripcion;
 
-                const carouselInner = document.getElementById('project-carousel-inner');
-                carouselInner.innerHTML = '';
-
-                images.forEach((img, index) => {
+                projectThumbs.innerHTML = '';
+                images.forEach(img => {
                     const path = `admin/project_gallery/uploads/proyectos/${img.id_proyecto_fk}/${img.nombre_archivo}`;
-                    const div = document.createElement('div');
-                    div.className = 'carousel-item' + (index === 0 ? ' active' : '');
-                    div.innerHTML = `
-                    <img src="${path}" alt="${nombre}">
+                    projectThumbs.innerHTML += `
+                    <div class="col-6 col-md-4 col-lg-4">
+                        <img src="${path}" class="img-thumbnail w-100" alt="${nombre}">
+                    </div>
                 `;
-                    carouselInner.appendChild(div);
                 });
 
                 // Mostrar modal con jQuery (Bootstrap 4)
                 $('#modal-project-details').modal('show');
-
-                // Reiniciar carrusel
-                $('#project-carousel').carousel({ interval: false });
             });
         });
 

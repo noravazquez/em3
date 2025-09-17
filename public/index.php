@@ -75,7 +75,7 @@ $projectsHome = getProjectsHome($db);
 						<ul class="nav_scroll">
 							<li><a href="index.php">Inicio</a></li>
 							<li><a href="about-us.html">Sobre nosotros</a></li>
-							<li><a href="project.html">Portafolio</a></li>
+							<li><a href="project.php">Portafolio</a></li>
 							<li><a href="service.html">Servicios</a></li>
 							<li><a href="contact.html">Contacto</a></li>
 						</ul>
@@ -97,7 +97,7 @@ $projectsHome = getProjectsHome($db);
 				<ul class="nav_scroll">
 					<li><a href="index.php">Inicio</a></li>
 					<li><a href="about-us.html">Sobre nosotros</a></li>
-					<li><a href="project.html">Portafolio</a></li>
+					<li><a href="project.php">Portafolio</a></li>
 					<li><a href="service.html">Servicios</a></li>
 					<li><a href="contact.html">Contacto</a></li>
 					<li><a href="login.php">Iniciar sesion</a></li>
@@ -361,7 +361,7 @@ $projectsHome = getProjectsHome($db);
 				<div class="col-lg-6">
 					<div class="project-right">
 						<div class="solutek-btn">
-							<a href="project.html">VER PROYECTOS
+							<a href="project.php">VER PROYECTOS
 								<div class="solutek-hover-btn hover-bx"></div>
 								<div class="solutek-hover-btn hover-bx2"></div>
 								<div class="solutek-hover-btn hover-bx3"></div>
@@ -516,7 +516,7 @@ $projectsHome = getProjectsHome($db);
 	<!--==================================================-->
 	<!-- Start solutek contact Area -->
 	<!--==================================================-->
-<!-- 
+	<!-- 
 
 	<div class="contact-area">
 		<div class="container">
@@ -645,17 +645,38 @@ $projectsHome = getProjectsHome($db);
 						<ul>
 							<li><a href="about-us.html">Sobre nosotros</a></li>
 							<li><a href="contact.html">Contáctanos</a></li>
+							<li><a href="service.html">Nuestros servicios</a></li>
+							<li><a href="project.php">Portafolio</a></li>
 						</ul>
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-6 col-sm-6">
 					<div class="footer-widget left">
 						<div class="widget-title">
-							<h2>Que ofrecemos</h2>
+							<h2>Contacto</h2>
 						</div>
 						<ul>
-							<li><a href="service.html">Nuestros servicios</a></li>
-							<li><a href="project.html">Portafolio</a></li>
+							<li>
+								<div class="row d-flex align-items-center text-white">
+									<div class="col-2">
+										<i class="bi bi-pin-map-fill"></i>
+									</div>
+									<div class="col-10">
+										Av Colinas del Cimatario, Colinas del Cimatario, 76090 Santiago de Querétaro,
+										Qro.
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="row d-flex align-items-center text-white mt-3">
+									<div class="col-2">
+										<i class="bi bi-envelope-fill"></i>
+									</div>
+									<div class="col-10">
+										contacto@em3construcciones.com
+									</div>
+								</div>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -729,4 +750,5 @@ $projectsHome = getProjectsHome($db);
 	<!-- theme js -->
 	<script src="assets/js/theme.js"></script>
 </body>
+
 </html>

@@ -76,7 +76,7 @@ $projects = getProjects($db);
 						<ul class="nav_scroll">
 							<li><a href="index.php">Inicio</a></li>
 							<li><a href="about-us.html">Sobre nosotros</a></li>
-							<li><a href="project.html">Portafolio</a></li>
+							<li><a href="project.php">Portafolio</a></li>
 							<li><a href="service.html">Servicios</a></li>
 							<li><a href="contact.html">Contacto</a></li>
 						</ul>
@@ -99,7 +99,7 @@ $projects = getProjects($db);
 				<ul class="nav_scroll">
 					<li><a href="index.php">Inicio</a></li>
 					<li><a href="about-us.html">Sobre nosotros</a></li>
-					<li><a href="project.html">Portafolio</a></li>
+					<li><a href="project.php">Portafolio</a></li>
 					<li><a href="service.html">Servicios</a></li>
 					<li><a href="contact.html">Contacto</a></li>
 					<li><a href="login.php">Iniciar sesion</a></li>
@@ -198,7 +198,7 @@ $projects = getProjects($db);
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="project-title">Título del Proyecto</h5>
-					<button id="close-project" type="button" class="btn-close">
+					<button id="close-project" class="btn-close">
 					</button>
 					<!-- <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button> -->
 				</div>
@@ -208,23 +208,11 @@ $projects = getProjects($db);
 					<p id="project-description" class="text-muted mb-4">Descripción del proyecto...</p>
 
 					<!-- Carrusel de imágenes -->
-					<div id="project-carousel" class="carousel slide" data-ride="carousel">
-						<div class="carousel-inner" id="project-carousel-inner">
-						</div>
-						<a class="carousel-control-prev" href="#project-carousel" role="button" data-slide="prev">
-							<span class="carousel-control-prev-icon"></span>
-							<span class="sr-only">Anterior</span>
-						</a>
-						<a class="carousel-control-next" href="#project-carousel" role="button" data-slide="next">
-							<span class="carousel-control-next-icon"></span>
-							<span class="sr-only">Siguiente</span>
-						</a>
-					</div>
+					<div id="project-thumbs" class="row g-2"></div>
 				</div>
 			</div>
 		</div>
 	</div>
-
 	<!--==================================================-->
 	<!--End solutek case-study-area -->
 	<!--==================================================-->
@@ -241,7 +229,7 @@ $projects = getProjects($db);
 							<img src="assets/images/address1.png" alt="address1">
 						</div>
 						<div class="address-title">
-							<h3>Elevating Customer Experience.</h3>
+							<h3>Tu visión, nuestro diseño.</h3>
 						</div>
 					</div>
 				</div>
@@ -251,7 +239,7 @@ $projects = getProjects($db);
 							<img src="assets/images/address2.png" alt="address1">
 						</div>
 						<div class="solutek-btn">
-							<a href="contact.html">+44 920 090 505
+							<a href="contact.html">442 224 22 94
 								<div class="solutek-hover-btn hover-bx"></div>
 								<div class="solutek-hover-btn hover-bx2"></div>
 								<div class="solutek-hover-btn hover-bx3"></div>
@@ -276,81 +264,73 @@ $projects = getProjects($db);
 				<div class="col-lg-4 col-md-6 col-sm-6">
 					<div class="footer-widget">
 						<div class="footer-logo">
-							<a href="index.html"><img src="assets/images/footer-logo.png" alt="footer-logo"></a>
+							<a href="index.php"><img src="assets/images/logoem3.svg" alt="footer-logo"></a>
 						</div>
-						<p class="footer-widget-text">Globally monetize plug-and-play data it solu
-							monotonectally disseminate oriented busine
-							multifunctional mind design.</p>
+						<p class="footer-widget-text">Nos certificamos para garantizar calidad en nuestros productos
+							y
+							servicios.</p>
 						<div class="footer-social">
 							<div class="footer-widget-social">
-								<a href="#"><i class="fab fa-facebook-f"></i></a>
-								<a href="#"><i class="fab fa-twitter"></i></a>
-								<a href="#"><i class="fab fa-linkedin-in"></i></a>
-								<a href="#"><i class="fab fa-pinterest-p"></i></a>
+								<a href="https://www.facebook.com/em3construcciones"><i
+										class="fab fa-facebook-f"></i></a>
+								<a href="https://www.linkedin.com/company/em3-construcciones/"><i
+										class="fab fa-linkedin-in"></i></a>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-2 col-md-6 col-sm-6">
+				<div class="col-lg-4 col-md-6 col-sm-6">
 					<div class="footer-widget left">
 						<div class="widget-title">
-							<h2>Useful Links</h2>
+							<h2>Accesos directos</h2>
 						</div>
 						<ul>
-							<li><a href="about-us.html">About Company</a></li>
-							<li><a href="team.html">Meet Our Team</a></li>
-							<li><a href="blog-grid.html">Latest Blog</a></li>
-							<li><a href="contact.html">Contact Us</a></li>
-							<li><a href="testimonial.html">Testimonials</a></li>
+							<li><a href="about-us.html">Sobre nosotros</a></li>
+							<li><a href="contact.html">Contáctanos</a></li>
+							<li><a href="service.html">Nuestros servicios</a></li>
+							<li><a href="project.php">Portafolio</a></li>
 						</ul>
 					</div>
 				</div>
-				<div class="col-lg-3 col-md-6 col-sm-6">
+				<div class="col-lg-4 col-md-6 col-sm-6">
 					<div class="footer-widget left">
 						<div class="widget-title">
-							<h2>Services.</h2>
+							<h2>Contacto</h2>
 						</div>
 						<ul>
-							<li><a href="about-us.html">About Company</a></li>
-							<li><a href="team.html">Meet Our Team</a></li>
-							<li><a href="blog-grid.html">Latest Blog</a></li>
-							<li><a href="contact.html">Contact Us</a></li>
-							<li><a href="faq.html">FAQ</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6 col-sm-6">
-					<div class="footer-widget-newsletter">
-						<div class="widget-title">
-							<h2>Newsletter</h2>
-						</div>
-						<p class="newsletter-text">Globally monetize plug-and-play data it solu
-							monotonectally disseminate oriented busine
-							multifunctional mind design.</p>
-						<div class="Subscribe-form2">
-							<form>
-								<div class="form-field2">
-									<input type="email" name="EMAIL" placeholder="Enter Your E-mail" required="">
-									<button class="subscribe-button" type="submit"><i class="bi bi-send"></i></button>
+							<li>
+								<div class="row d-flex align-items-center text-white">
+									<div class="col-2">
+										<i class="bi bi-pin-map-fill"></i>
+									</div>
+									<div class="col-10">
+										Av Colinas del Cimatario, Colinas del Cimatario, 76090 Santiago de Querétaro,
+										Qro.
+									</div>
 								</div>
-							</form>
-						</div>
+							</li>
+							<li>
+								<div class="row d-flex align-items-center text-white mt-3">
+									<div class="col-2">
+										<i class="bi bi-envelope-fill"></i>
+									</div>
+									<div class="col-10">
+										contacto@em3construcciones.com
+									</div>
+								</div>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</div>
 			<div class="row copyright">
 				<div class="col-lg-6 col-md-6 col-sm-6">
 					<div class="-copyright-text">
-						<p>© Copyright 2024 By Solutek</p>
+						<p>© Copyright 2024 By NV</p>
 					</div>
 				</div>
 				<div class="col-lg-6 col-md-6 col-sm-6">
-					<div class="copyright-list">
-						<ul>
-							<li><a href="index.html">Privacy Policy</a></li>
-							<li><a href="index-2.html">Supports</a></li>
-						</ul>
-					</div>
+					&nbsp;
 				</div>
 			</div>
 		</div>
