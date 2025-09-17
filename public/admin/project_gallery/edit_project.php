@@ -3,7 +3,6 @@ require_once "../../../config/database.php";
 require_once "../../../lib/auth.php";
 require_once "../../../lib/projects.php";
 require_once "../../../lib/imagenes.php";
-require_once "../../../lib/categories.php";
 
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Pragma: no-cache");
@@ -18,14 +17,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_proyecto = $_POST['id_proyecto'] ?? null;
 
     if (!$id_proyecto) {
-        header("Location: project_gallery.php?error=Proyecto no encontrado");
+        header("Location: ../project_gallery.php?error=Proyecto no encontrado");
         exit();
     }
     $data = [
         'id_proyecto' => $id_proyecto,
         'nombre' => $_POST['nombre'],
         'descripcion' => $_POST['descripcion'],
-        'id_categoria_fk' => $_POST['id_categoria'],
         'usuario_modificacion' => $_SESSION['id_usuario']
     ];
 
@@ -54,11 +52,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $fileSize = $_FILES['imagenes']['size'][$i];
 
                     if (!in_array($fileType, $allowedTypes)) {
-                        header("Location: edit_project.php?id=$id_proyecto&error=Formato no permitido"); //ARREGLAR DIRECCIONES Y LOS MENSAJES PLISSSS
+                        header("Location: ../project_gallery.php?id=$id_proyecto&error=Formato no permitido"); //ARREGLAR DIRECCIONES Y LOS MENSAJES PLISSSS
                         exit();
                     }
                     if ($fileSize > $maxSize) {
-                        header("Location: edit_project.php?id=$id_proyecto&error=Imagen demasiado grande");
+                        header("Location: ../project_gallery.php?id=$id_proyecto&error=Imagen demasiado grande");
                         exit();
                     }
 
@@ -74,10 +72,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
         }
-        header("Location: project_gallery.php?success=Proyecto actualizado");
+        header("Location: ../project_gallery.php?success=Proyecto actualizado");
         exit();
     } else {
-        header("Location: project_gallery.php?id=$id_proyecto&error=Error al actualizar");
+        header("Location: ../project_gallery.php?id=$id_proyecto&error=Error al actualizar");
         exit();
     }
 }

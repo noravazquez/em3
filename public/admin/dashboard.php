@@ -44,11 +44,14 @@ if (!checkAuth()) {
 
                 <!-- Navigation Menu -->
                 <nav class="hidden md:flex space-x-8">
-                    <a href="./dashboard.php" class="text-accent font-medium px-3 py-2 rounded-md text-sm">
+                    <a href="./dashboard.php" class="bg-accent text-white px-3 py-2 rounded-md text-sm font-medium">
                         Inicio
                     </a>
-                    <a href="./project_gallery.php" class="text-text-secondary hover:text-primary transition-colors px-3 py-2 rounded-md text-sm">
+                    <a href="./project_gallery.php" class="text-text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
                         Proyectos
+                    </a>
+                    <a href="./user_list.php" class="text-text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                        Usuarios
                     </a>
                 </nav>
 
@@ -85,6 +88,7 @@ if (!checkAuth()) {
             <div class="px-2 pt-2 pb-3 space-y-1">
                 <a href="./dashboard.php" class="bg-accent-50 text-accent block px-3 py-2 rounded-md text-base font-medium">Inicio</a>
                 <a href="./project_gallery.php" class="text-text-secondary hover:text-primary block px-3 py-2 rounded-md text-base font-medium">Proyectos</a>
+                <a href="./user_list.php" class="text-text-secondary hover:text-primary block px-3 py-2 rounded-md text-base font-medium">Usuarios</a>
             </div>
         </div>
     </header>

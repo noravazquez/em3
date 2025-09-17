@@ -7,7 +7,7 @@ header("Pragma: no-cache");
 header("Expires: 0");
 
 if (checkAuth()) {
-    header("Location: admin/dashboard.php");
+    header("Location: admin/project_gallery.php");
     exit;
 }
 
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     if (login($usuario, $password, $db)) {
-        header("Location: admin/dashboard.php");
+        header("Location: admin/project_gallery.php");
         exit();
     } else {
         $error = "Usuario o contraseña incorrectos.";
@@ -66,13 +66,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="relative z-10 min-h-screen flex items-center justify-center p-4">
         <div class="w-full max-w-md">
             <!-- Logo and Brand -->
-            <div class="text-center mb-8">
+            <a href="index.php" class="block text-center mb-8">
                 <div class="inline-flex items-center justify-center w-16 h-16 bg-accent rounded-xl mb-4 architectural-shadow">
                     <img src="assets/images/logo_menu.svg" alt="logo">
                 </div>
                 <h1 class="text-3xl font-inter font-bold text-white mb-2">Em3</h1>
                 <p class="text-neutral-200 text-lg">CONSTRUCCIONES S.A. DE C.V.</p>
-            </div>
+            </a>
 
             <!-- Login Card -->
             <div class="card bg-surface/95 backdrop-blur-sm architectural-shadow-strong">

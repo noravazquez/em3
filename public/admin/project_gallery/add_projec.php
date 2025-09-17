@@ -3,7 +3,6 @@ require_once "../../../config/database.php";
 require_once "../../../lib/auth.php";
 require_once "../../../lib/projects.php";
 require_once "../../../lib/imagenes.php";
-require_once "../../../lib/categories.php";
 
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Pragma: no-cache");
@@ -18,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = [
         'nombre'           => $_POST['nombre'],
         'descripcion'      => $_POST['descripcion'],
-        'id_categoria_fk'  => $_POST['id_categoria'],
         'usuario_creacion' => $_SESSION['id_usuario']
     ];
 
@@ -43,11 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $fileSize = $_FILES['imagenes']['size'][$i];
 
                     if (!in_array($fileType, $allowedTypes)) {
-                        header("Location: ?error=Formato no permitido"); //ARREGLAR DIRECCIONES Y LOS MENSAJES PLISSSS
+                        header("Location: ../project_gallery.php?error=Formato no permitido."); //ARREGLAR DIRECCIONES Y LOS MENSAJES PLISSSS
                         exit();
                     }
                     if ($fileSize > $maxSize) {
-                        header("Location: ?error=Imagen demasiado grande");
+                        header("Location: ../project_gallery.php?error=Imagen demasiado grande.");
                         exit();
                     }
 
@@ -63,10 +61,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
         }
-        header("Location: ?success=1");
+        header("Location: ../project_gallery.php?success=Proyecto guardado correctamente.");
         exit();
     } else {
-        header("Location: ?error=1");
+        header("Location: ../project_gallery.php?error=Error al guardar el proyecto.");
         exit();
     }
 }

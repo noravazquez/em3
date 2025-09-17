@@ -15,7 +15,7 @@
 }
 
 .hero-thumb::before {
-    top: -20%;
+    top: -10%;
 }
 
 .row.project {
@@ -120,7 +120,7 @@
 
 }
 /* Normal desktop :1300px. */
-@media (min-width: 1300px) and (max-width: 1399px) {
+@media (min-width: 1300px) and (max-width: 1399.99px) {
 .solutek_nav_manu {
 	padding: 0px 39px 0;
 }
@@ -431,7 +431,7 @@ h4.blog-details-title {
 }
 
 /* Normal desktop :1200px. */
-@media (min-width: 1200px) and (max-width: 1299px) {
+@media (min-width: 1200px) and (max-width: 1299.99px) {
 /* home page one */
 .solutek_nav_manu {
     padding: 0px 39px 0;
@@ -451,7 +451,7 @@ h4.blog-details-title {
 }
 
 .hero-thumb::before {
-    top: -10%;
+    top: 5%;
 }
 
 .header-btn {
@@ -783,7 +783,7 @@ h4.blog-details-title {
 
 
 /* Normal desktop :992px. */
-@media (min-width: 992px) and (max-width: 1199px) {
+@media (min-width: 992px) and (max-width: 1199.99px) {
 /* home page one */
 .solutek_nav_manu {
     background: #050a1e;
@@ -818,7 +818,7 @@ h4.blog-details-title {
 
 .hero-thumb::before {
     right: -10%;
-    top: -18%;
+    top: -5%;
 }
 
 .hero-contant h1 {
@@ -1503,7 +1503,7 @@ h4.blog-details-title {
 
 
 /* Tablet desktop :768px. */
-@media (min-width: 768px) and (max-width: 991px) {
+@media (min-width: 768px) and (max-width: 991.99px) {
 /*home page one */
 .solutek_nav_manu {
     display: none;
@@ -1538,7 +1538,7 @@ ul.nav_scroll li a i {
 
 .hero-thumb::before {
     right: 4%;
-    top: -26%;
+    top: -10%;
 }
 
 .feature-box {
@@ -2081,7 +2081,7 @@ h4.blog-details-title {
 }
 
 /* Large Mobile :600px. */
-@media only screen and (min-width: 600px) and (max-width: 767px) {
+@media only screen and (min-width: 600px) and (max-width: 767.99px) {
 /* home page one */
 .solutek_nav_manu {
 	display: none;
@@ -2119,7 +2119,7 @@ ul.nav_scroll li a i {
 
 .hero-thumb::before {
     right: 0%;
-    top: -25%;
+    top: -10%;
 
 }
 
@@ -2767,7 +2767,7 @@ p.blog-details-desc {
 
 
 /* small mobile :480px. */
-@media only screen and (min-width: 480px) and (max-width: 599px) {
+@media only screen and (min-width: 480px) and (max-width: 599.99px) {
 /* home page one */
 .solutek_nav_manu {
 	display: none;
@@ -2810,7 +2810,7 @@ ul.nav_scroll li a i {
 
 .hero-thumb::before {
     right: 2%;
-    top: -25%;
+    top: -5%;
 }
 
 .hero-thumb {
@@ -3563,7 +3563,7 @@ h3.blog-details-title.two {
 }
 
 /* small mobile :320px. */
-@media only screen and (min-width: 320px) and (max-width: 479px) {
+@media only screen and (min-width: 320px) and (max-width: 479.99px) {
 /* solutek home page one */
 .solutek_nav_manu {
     display: none;

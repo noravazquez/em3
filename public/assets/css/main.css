@@ -667,6 +667,8 @@ h6 {
   transition-duration: 300ms;
   transition-timing-function: ease-out;
   box-shadow: 0 2px 8px rgba(5, 10, 30, 0.1);
+  display: flex;
+  flex-direction: column;
 }
 
 .card:hover {
@@ -1162,6 +1164,10 @@ h6 {
 
 .overflow-y-auto {
   overflow-y: auto;
+}
+
+.overflow-x-auto {
+  overflow-x: auto !important;
 }
 
 .rounded {
@@ -1925,4 +1931,8 @@ h6 {
 .checkbox-custom:checked {
   background-color: #dc3545 !important;
   border-color: #dc3545 !important;
+}
+
+.card-buttons {
+  margin-top: auto;
 }

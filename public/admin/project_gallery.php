@@ -3,7 +3,6 @@ require_once "../../config/database.php";
 require_once "../../lib/auth.php";
 require_once "../../lib/projects.php";
 require_once "../../lib/imagenes.php";
-require_once "../../lib/categories.php";
 
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Pragma: no-cache");
@@ -15,7 +14,6 @@ if (!checkAuth()) {
 }
 
 $projects = getAllProjects($db, $_SESSION['id_rol']);
-$categorias = getAllCategories($db);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +23,7 @@ $categorias = getAllCategories($db);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Em3 - Proyectos</title>
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="56x56" href="assets/images/fav-icon/logo_em3.png">
+    <link rel="icon" type="image/png" sizes="56x56" href="../assets/images/fav-icon/logo_em3.png">
     <link rel="stylesheet" href="../assets/css/main.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -51,12 +49,17 @@ $categorias = getAllCategories($db);
                 <!-- Navigation -->
                 <nav class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="./dashboard.php" class="text-text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                        <!-- <a href="./dashboard.php" class="text-text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
                             Inicio
-                        </a>
+                        </a> -->
                         <a href="./project_gallery.php" class="bg-accent text-white px-3 py-2 rounded-md text-sm font-medium">
                             Proyectos
                         </a>
+                        <?php if($_SESSION['id_rol'] == 1):?>
+                            <a href="./user_list.php" class="text-text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                                Usuarios
+                            </a>
+                        <?php endif; ?>
                     </div>
                 </nav>
 
@@ -74,7 +77,7 @@ $categorias = getAllCategories($db);
 
                         <!-- Dropdown Menu -->
                         <div id="userDropdown" class="hidden absolute right-0 mt-2 w-48 bg-surface rounded-lg architectural-shadow-strong py-1 z-50">
-                            <a href="../modelo/logout.php" class="block px-4 py-2 text-sm text-error hover:bg-neutral-50">Cerrar sesión</a>
+                            <a href="../logout.php" class="block px-4 py-2 text-sm text-error hover:bg-neutral-50">Cerrar sesión</a>
                         </div>
                     </div>
 
@@ -91,8 +94,9 @@ $categorias = getAllCategories($db);
         <!-- Mobile Navigation -->
         <div id="mobileMenu" class="hidden md:hidden bg-surface border-t border-neutral-200">
             <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="./dashboard.php" class="text-text-secondary hover:text-primary block px-3 py-2 rounded-md text-base font-medium">Inicio</a>
+                <!-- <a href="./dashboard.php" class="text-text-secondary hover:text-primary block px-3 py-2 rounded-md text-base font-medium">Inicio</a> -->
                 <a href="./project_gallery.php" class="bg-accent-50 text-accent block px-3 py-2 rounded-md text-base font-medium">Proyectos</a>
+                <a href="./user_list.php" class="text-text-secondary hover:text-primary block px-3 py-2 rounded-md text-base font-medium">Usuarios</a>
             </div>
         </div>
     </header>
@@ -145,17 +149,6 @@ $categorias = getAllCategories($db);
                                 <textarea id="description" name="descripcion" rows="3" placeholder="Descripción del proyecto..." class="input-field" required></textarea>
                             </div>
 
-                            <div>
-                                <label for="category" class="block text-text-secondary mb-1">Categoría</label>
-                                <select id="category" name="id_categoria" class="input-field" required>
-                                    <?php foreach ($categorias as $categoria): ?>
-                                        <option value="<?= $categoria['id_categoria'] ?>">
-                                            <?= $categoria['categoria'] ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
                             <!-- Image Upload -->
                             <div class="border-2 border-dashed border-neutral-300 rounded-lg p-4 text-center cursor-pointer hover:border-accent transition-all">
                                 <input type="file" id="images" name="imagenes[]" accept="image/*" multiple class="hidden" />
@@ -200,12 +193,6 @@ $categorias = getAllCategories($db);
             </div>
         </div>
 
-        <?php if (isset($_GET['success'])): ?>
-            <div class="alert-success">Proyecto agregado correctamente ✅</div>
-        <?php elseif (isset($_GET['error'])): ?>
-            <div class="alert-error">Ocurrió un error al guardar el proyecto ❌</div>
-        <?php endif; ?>
-
         <!-- Project Gallery Grid -->
         <div id="projectGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <?php if (empty($projects)): ?>
@@ -220,15 +207,14 @@ $categorias = getAllCategories($db);
                     $fechaObj = new DateTime($p['fecha_creacion']);
                     $fechaFormateada = $fechaObj->format('d/m/Y H:i');
                     ?>
-                    <div class="project-card card group cursor-pointer" data-category="<?= htmlspecialchars($p['categoria']); ?>">
+                    <div class="project-card card group">
                         <div class="relative overflow-hidden rounded-lg mb-4">
                             <img src="./project_gallery/uploads/<?= htmlspecialchars($thumbnail); ?>" alt="<?= htmlspecialchars($p['nombre']); ?>" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='./project_gallery/uploads/no-imagen.jpg'; this.onerror=null;" />
                             <div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         </div>
                         <div class="space-y-2">
-                            <div class="flex items-center justify-between">
+                            <div class="flex items-center">
                                 <h3 class="text-lg font-inter font-semibold text-primary"><?= htmlspecialchars($p['nombre']); ?></h3>
-                                <p class="text-sm text-text-secondary"><?= htmlspecialchars($p['categoria']); ?></p>
                             </div>
                             <div class="flex items-center justify-between pt-2">
                                 <div class="flex items-center space-x-2">
@@ -237,18 +223,20 @@ $categorias = getAllCategories($db);
                                 <span class="text-xs text-text-secondary"><?= htmlspecialchars($fechaFormateada); ?></span>
                             </div>
                         </div>
-                        <div class="flex items-center justify-center gap-3 pt-2">
+                        <div class="flex items-center justify-center gap-3 pt-2 card-buttons">
                             <button
                                 class="btn-primary open-edit-project"
                                 data-id="<?= $p['id_proyecto']; ?>"
                                 data-nombre="<?= htmlspecialchars($p['nombre']); ?>"
                                 data-descripcion="<?= htmlspecialchars($p['descripcion']); ?>"
-                                data-categoria="<?= $p['id_categoria']; ?>"
                                 data-images='<?= json_encode($images); ?>'>
                                 Editar
                             </button>
-                            <!-- <a href="delete_project.php?id=<?= $p['id_proyecto']; ?>" class="btn-secondary"
-                                onclick="return confirm('¿Seguro que quieres eliminar este proyecto?');">Eliminar</a> -->
+                            <a href="./project_gallery/delete.php?id=<?= $p['id_proyecto']; ?>"
+                                class="btn-secondary"
+                                onclick="return confirm('¿Seguro que quieres eliminar este proyecto junto con sus imágenes?');">
+                                Eliminar
+                            </a>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -284,17 +272,6 @@ $categorias = getAllCategories($db);
                             </div>
 
                             <div>
-                                <label for="edit-categoria" class="block text-text-secondary mb-1">Categoría</label>
-                                <select name="id_categoria" id="edit-categoria" class="input-field" required>
-                                    <?php foreach ($categorias as $categoria): ?>
-                                        <option value="<?= $categoria['id_categoria'] ?>">
-                                            <?= $categoria['categoria'] ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <div>
                                 <label class="block text-text-secondary mb-1">Imágenes actuales</label>
                                 <div id="edit-current-images" class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
                             </div>
@@ -327,6 +304,28 @@ $categorias = getAllCategories($db);
 
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <?php if (isset($_GET['success'])): ?>
+        <script>
+            Swal.fire({
+                title: "¡Éxito!",
+                text: "<?= htmlspecialchars($_GET['success']); ?>",
+                icon: "success",
+                timer: 3000,
+                showConfirmButton: false
+            });
+        </script>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['error'])): ?>
+        <script>
+            Swal.fire({
+                title: "Error",
+                text: "<?= htmlspecialchars($_GET['error']); ?>",
+                icon: "error",
+                showCloseButton: true
+            });
+        </script>
+    <?php endif; ?>
     <script>
         // User menu dropdown
         document.getElementById('userMenuButton').addEventListener('click', function() {
@@ -359,9 +358,8 @@ $categorias = getAllCategories($db);
 
             projectCards.forEach(card => {
                 const title = card.querySelector('h3').textContent.toLowerCase();
-                const category = card.querySelector('p').textContent.toLowerCase();
 
-                const matchesSearch = title.includes(searchTerm) || category.includes(searchTerm);
+                const matchesSearch = title.includes(searchTerm);
 
                 if (matchesSearch) {
                     card.style.display = 'block';
@@ -402,13 +400,11 @@ $categorias = getAllCategories($db);
                 const id = btn.dataset.id;
                 const nombre = btn.dataset.nombre;
                 const descripcion = btn.dataset.descripcion;
-                const categoria = btn.dataset.categoria;
 
                 // rellenar el formulario
                 document.getElementById('edit-id').value = id;
                 document.getElementById('edit-nombre').value = nombre;
                 document.getElementById('edit-descripcion').value = descripcion;
-                document.getElementById('edit-categoria').value = categoria;
 
                 // cargar imágenes actuales
                 const imagesContainer = document.getElementById('edit-current-images');

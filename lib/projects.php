@@ -6,15 +6,12 @@ function getAllProjects($db, $id_rol)
                 p.id_proyecto,
                 p.nombre,
                 p.descripcion,
-                c.id_categoria,
-                c.categoria,
                 p.fecha_creacion,
                 p.fecha_modificacion,
                 u.usuario AS usuario_creador,
                 u2.usuario AS usuario_modificador,
                 p.estado
             FROM proyectos p
-            INNER JOIN categorias c ON p.id_categoria_fk = c.id_categoria
             INNER JOIN usuarios u ON p.usuario_creacion = u.id_usuario
             LEFT JOIN usuarios u2 ON p.usuario_modificacion = u2.id_usuario
             ORDER BY p.fecha_creacion DESC");
@@ -23,15 +20,12 @@ function getAllProjects($db, $id_rol)
                 p.id_proyecto,
                 p.nombre,
                 p.descripcion,
-                c.id_categoria,
-                c.categoria,
                 p.fecha_creacion,
                 p.fecha_modificacion,
                 u.usuario AS usuario_creador,
                 u2.usuario AS usuario_modificador,
                 p.estado
             FROM proyectos p
-            INNER JOIN categorias c ON p.id_categoria_fk = c.id_categoria
             INNER JOIN usuarios u ON p.usuario_creacion = u.id_usuario
             LEFT JOIN usuarios u2 ON p.usuario_modificacion = u2.id_usuario
             WHERE p.estado = 'A' ORDER BY p.fecha_creacion DESC");
@@ -46,15 +40,12 @@ function getProjectById($db, $id)
                 p.id_proyecto,
                 p.nombre,
                 p.descripcion,
-                c.id_categoria,
-                c.categoria,
                 p.fecha_creacion,
                 p.fecha_modificacion,
                 u.usuario AS usuario_creador,
                 u2.usuario AS usuario_modificador,
                 p.estado
             FROM proyectos p
-            INNER JOIN categorias c ON p.id_categoria_fk = c.id_categoria
             INNER JOIN usuarios u ON p.usuario_creacion = u.id_usuario
             LEFT JOIN usuarios u2 ON p.usuario_modificacion = u2.id_usuario
             WHERE p.id_proyecto = :id LIMIT 1");
@@ -64,12 +55,11 @@ function getProjectById($db, $id)
 
 function addProject($db, $data)
 {
-    $stmt = $db->prepare("INSERT INTO proyectos(nombre, descripcion, id_categoria_fk, fecha_creacion, usuario_creacion) 
-        VALUES (:nombre, :descripcion, :id_categoria_fk, CURRENT_TIMESTAMP, :usuario_creacion)");
+    $stmt = $db->prepare("INSERT INTO proyectos(nombre, descripcion, fecha_creacion, usuario_creacion) 
+        VALUES (:nombre, :descripcion, CURRENT_TIMESTAMP, :usuario_creacion)");
     return $stmt->execute([
         'nombre' => $data['nombre'],
         'descripcion' => $data['descripcion'],
-        'id_categoria_fk' => $data['id_categoria_fk'],
         'usuario_creacion' => $data['usuario_creacion']
     ]);
 }
@@ -78,8 +68,7 @@ function updateProject($db, $data)
 {
     $stmt = $db->prepare("UPDATE proyectos SET
         nombre = :nombre, 
-        descripcion = :descripcion, 
-        id_categoria_fk = :id_categoria_fk, 
+        descripcion = :descripcion,
         fecha_modificacion = CURRENT_TIMESTAMP, 
         usuario_modificacion = :usuario_modificacion
         WHERE id_proyecto = :id_proyecto");
@@ -87,7 +76,6 @@ function updateProject($db, $data)
         'id_proyecto' => $data['id_proyecto'],
         'nombre' => $data['nombre'],
         'descripcion' => $data['descripcion'],
-        'id_categoria_fk' => $data['id_categoria_fk'],
         'usuario_modificacion' => $data['usuario_modificacion']
     ]);
 }
@@ -95,12 +83,26 @@ function updateProject($db, $data)
 function deleteProject($db, $id_proyecto, $id_usuario, $id_rol)
 {
     if ($id_rol == 1) {
+        $stmt = $db->prepare("SELECT id_imagen FROM imagenes WHERE id_proyecto_fk = :id_proyecto");
+        $stmt->execute(["id_proyecto" => $id_proyecto]);
+        $imagenes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($imagenes as $img) {
+            deleteImage($db, $img['id_imagen'], $id_usuario, $id_rol);
+        }
+
         $stmt = $db->prepare("
             DELETE FROM proyectos WHERE id_proyecto = :id_proyecto
         ");
         $result = $stmt->execute([
             "id_proyecto" => $id_proyecto
         ]);
+
+        $dirPath = __DIR__ . "/../public/admin/project_gallery/uploads/proyectos/" . $id_proyecto;
+        if (is_dir($dirPath)) {
+            array_map('unlink', glob("$dirPath/*.*")); 
+            rmdir($dirPath);
+        }
     } else {
         $stmt = $db->prepare("
             UPDATE proyectos
@@ -110,6 +112,18 @@ function deleteProject($db, $id_proyecto, $id_usuario, $id_rol)
             WHERE id_proyecto = :id_proyecto
         ");
         $result = $stmt->execute([
+            "usuario_modificacion" => $id_usuario,
+            "id_proyecto" => $id_proyecto
+        ]);
+        
+        $stmt = $db->prepare("
+            UPDATE imagenes
+            SET estado = 'I',
+                fecha_modificacion = CURRENT_TIMESTAMP,
+                usuario_modificacion = :usuario_modificacion
+            WHERE id_proyecto_fk = :id_proyecto
+        ");
+        $stmt->execute([
             "usuario_modificacion" => $id_usuario,
             "id_proyecto" => $id_proyecto
         ]);

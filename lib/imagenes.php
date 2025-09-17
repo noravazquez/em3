@@ -14,7 +14,7 @@ function getImagesByProject($db, $id_proyecto, $id_rol)
         FROM imagenes i
         INNER JOIN usuarios u ON i.usuario_creacion = u.id_usuario
         LEFT JOIN usuarios u2 ON i.usuario_modificacion = u2.id_usuario 
-        WHERE id_proyecto_fk = :id_proyecto_fk");
+        WHERE i.id_proyecto_fk = :id_proyecto_fk");
     } else {
         $stmt = $db->prepare("SELECT 
             i.id_imagen,
@@ -28,7 +28,7 @@ function getImagesByProject($db, $id_proyecto, $id_rol)
         FROM imagenes i
         INNER JOIN usuarios u ON i.usuario_creacion = u.id_usuario
         LEFT JOIN usuarios u2 ON i.usuario_modificacion = u2.id_usuario 
-        WHERE id_proyecto_fk = :id_proyecto_fk AND estado = 'A'");
+        WHERE i.id_proyecto_fk = :id_proyecto_fk AND i.estado = 'A'");
     }
     $stmt->execute(['id_proyecto_fk' => $id_proyecto]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
