@@ -316,7 +316,7 @@ nav.solutek_menu span {
 
 .hero-area {
   height: 890px;
-  background: url(../images/home/hero-bg.jpg);
+  background: url(../images/hero-bg.jpg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -1707,6 +1707,7 @@ h3.project-title a:hover {
   display: flex;
   justify-content: center;
 }
+
 /*=====================================
 <--  end solutek project Area Css 
 =======================================*/
@@ -5170,7 +5171,7 @@ start solutek team Area style-two
    solutek Breadcumb Area Css
 =========================================================---*/
 .breadcumb-area {
-  background: url(../images/about-us/hero-bg.png);
+  background: url(../images/hero-bg.jpg);
   padding: 230px 0 170px;
   background-repeat: no-repeat;
   background-size: contain;
@@ -5381,6 +5382,39 @@ li.list-arrow {
   top: -6px;
 }
 
+.prizes-thumb {
+  text-align: right;
+  position: relative;
+  z-index: 1;
+  width: 500px;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.prizes-thumb::before {
+  position: absolute;
+  content: "";
+  height: 100%;
+  width: 100%;
+  background: url(../images/home/hero-shape.png);
+  background-repeat: no-repeat;
+  z-index: -1;
+  -webkit-animation-name: rotateme;
+  -webkit-animation-duration: 15s;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  background-position: center;
+}
+
+.prizes-thumb img {
+  width: 80%;
+  height: auto;
+}
+
 /*---=====================================================
    start solutek project Area style-two 
 =========================================================---*/
@@ -5403,6 +5437,9 @@ li.list-arrow {
 =========================================================---*/
 .sservice-area.style-two {
   padding: 120px 0 58px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
 }
 
 .sservice-area.style-two .single-service-box {
@@ -5413,6 +5450,10 @@ li.list-arrow {
   transition: 0.5s;
   overflow: hidden;
   margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .sservice-area.style-two .service-thumb {
@@ -5436,6 +5477,12 @@ li.list-arrow {
   left: 31px;
   top: 39%;
   transition: 0.5s;
+}
+
+.sservice-area.style-two .service-icon img{
+  width: 80%;
+  height: auto;
+  filter: brightness(0) invert(1);
 }
 
 .sservice-area.style-two .service-content {

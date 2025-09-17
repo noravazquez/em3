@@ -1,6 +1,6 @@
 <?php
 require_once "../config/database.php";
-require_once "../lib/projects_all.php";
+require_once "../lib/projects_public.php";
 
 $projectsHome = getProjectsHome($db);
 ?>
@@ -275,7 +275,7 @@ $projectsHome = getProjectsHome($db);
 						<h1 class="section-main-title">que <span>ofrecemos.</span></h1>
 					</div>
 				</div>
-				<div class="col-xl-3 col-lg-4 col-md-6">
+				<div class="col-xl-3 col-lg-4 col-md-6 mb-3">
 					<div class="service-single-box terracerias">
 						<div class="service-icon">
 							<img src="assets/images/home/services/Terracerias.svg" alt="Terracerías">
@@ -288,7 +288,7 @@ $projectsHome = getProjectsHome($db);
 						</div>
 					</div>
 				</div>
-				<div class="col-xl-3 col-lg-4 col-md-6">
+				<div class="col-xl-3 col-lg-4 col-md-6 mb-3">
 					<div class="service-single-box acabados">
 						<div class="service-icon">
 							<img src="assets/images/home/services/estructura_metalica.svg"
@@ -302,7 +302,7 @@ $projectsHome = getProjectsHome($db);
 						</div>
 					</div>
 				</div>
-				<div class="col-xl-3 col-lg-4 col-md-6">
+				<div class="col-xl-3 col-lg-4 col-md-6 mb-3">
 					<div class="service-single-box rehabilitacion">
 						<div class="service-icon">
 							<img src="assets/images/home/services/contruccion_manteni_industrial.svg"
@@ -316,7 +316,7 @@ $projectsHome = getProjectsHome($db);
 						</div>
 					</div>
 				</div>
-				<div class="col-xl-3 col-lg-4 col-md-6">
+				<div class="col-xl-3 col-lg-4 col-md-6 mb-3">
 					<div class="service-single-box asesoria">
 						<div class="service-icon">
 							<img src="assets/images/home/services/diseno_arquitectonico02.svg"
@@ -332,13 +332,13 @@ $projectsHome = getProjectsHome($db);
 				</div>
 			</div>
 			<div class="service-shape bounce-animate3">
-				<img src="assets/images/home/service5.png" alt="service5">
+				<img src="assets/images/service5.png" alt="service5">
 			</div>
 			<div class="service-shape2">
-				<img src="assets/images/home/service7.png" alt="service5">
+				<img src="assets/images/service7.png" alt="service5">
 			</div>
 			<div class="service-shape3 bounce-animate4">
-				<img src="assets/images/home/service8.png" alt="service5">
+				<img src="assets/images/service8.png" alt="service5">
 			</div>
 		</div>
 	</div>
@@ -597,7 +597,7 @@ $projectsHome = getProjectsHome($db);
 				<div class="col-lg-6 col-md-12">
 					<div class="address-box2">
 						<div class="address-icon">
-							<img src="assets/images/home/address2.png" alt="address1">
+							<img src="assets/images/address2.png" alt="address1">
 						</div>
 						<div class="solutek-btn">
 							<a href="contact.html">442 224 22 94
@@ -655,7 +655,7 @@ $projectsHome = getProjectsHome($db);
 						</div>
 						<ul>
 							<li><a href="service.html">Nuestros servicios</a></li>
-							<li><a href="service.html">Portafolio</a></li>
+							<li><a href="project.html">Portafolio</a></li>
 						</ul>
 					</div>
 				</div>
