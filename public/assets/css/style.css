@@ -585,7 +585,7 @@ p.feature-text {
 }
 
 .feature-sinble-single-box:hover h3.feature-title {
-  color: #fff;
+  color: transparent;
 }
 
 .feature-sinble-single-box:hover p.feature-text {
@@ -695,7 +695,7 @@ p.section-descr::before {
   margin: 0;
   font-size: 28px;
   line-height: 38px;
-  color: #050a1e;
+  color: #fff;
   font-weight: 600;
   font-family: "Poppins";
 }
@@ -834,7 +834,7 @@ h1.section-main-title2 {
 =======================================*/
 
 .contact-area {
-  background: url(../images/home/contact_background.JPG);
+  background: url(../images/contact_bg.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -1410,28 +1410,28 @@ h4.about-title {
 }
 
 .terracerias::before {
-  background: url(../images/home/services/Terracerias.svg);
+  background: url(../images/home/services/terracerias_bg.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 }
 
 .acabados::before {
-  background: url(../images/home/services/estructura_metalica.svg);
+  background: url(../images/home/services/acabados_bg.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 }
 
 .rehabilitacion::before {
-  background: url(../images/home/services/contruccion_manteni_industrial.svg);
+  background: url(../images/home/services/rehabilitacion_bg.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 }
 
 .asesoria::before {
-  background: url(../images/home/services/diseno_arquitectonico02.svg);
+  background: url(../images/home/services/asesorias_bg.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -1588,16 +1588,17 @@ p.service-text {
 
 .project-thumb {
   height: 450px;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #7a7a7a;
   overflow: hidden;
 }
 
 .project-thumb img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
 
@@ -5174,7 +5175,7 @@ start solutek team Area style-two
   background: url(../images/hero-bg.jpg);
   padding: 230px 0 170px;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
   position: relative;
   margin: -77px 0px 0 -16px;
 }
@@ -6561,6 +6562,14 @@ li.current_menu_item {
   color: #ffffff;
   font-size: 26px;
 }
+
+.thumb-img {
+  height: 200px;
+  object-fit: cover;
+  width: 100%;
+  border-radius: .5rem;
+}
+
 
 /*---=====================================================
 start solutek project details area css 

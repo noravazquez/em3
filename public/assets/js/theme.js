@@ -471,8 +471,8 @@
                 images.forEach(img => {
                     const path = `admin/project_gallery/uploads/proyectos/${img.id_proyecto_fk}/${img.nombre_archivo}`;
                     projectThumbs.innerHTML += `
-                    <div class="col-6 col-md-4 col-lg-4">
-                        <img src="${path}" class="img-thumbnail w-100" alt="${nombre}">
+                    <div class="col-12 col-lg-6">
+                        <img src="${path}" class="img-thumbnail w-100 thumb-img" alt="${nombre}">
                     </div>
                 `;
                 });

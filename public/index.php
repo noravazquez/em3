@@ -143,7 +143,7 @@ $projectsHome = getProjectsHome($db);
 				</div>
 				<div class="col-lg-6">
 					<div class="hero-thumb">
-						<img src="./assets/images/home/hero_thumb.png" alt="hero-thumb">
+						<img src="./assets/images/home/hero_thumb.jpg" alt="hero-thumb">
 					</div>
 				</div>
 			</div>
@@ -219,7 +219,7 @@ $projectsHome = getProjectsHome($db);
 			<div class="row align-items-center">
 				<div class="col-lg-6 col-lg-6">
 					<div class="about-thumb">
-						<img src="assets/images/home/about-thumb.jpg" alt="about-thumb">
+						<img class="w-100" src="assets/images/home/about-thumb.jpg" alt="about-thumb">
 						<div class="about-shape">
 							<img src="assets/images/home/about1.png" alt="about1">
 						</div>
@@ -404,45 +404,66 @@ $projectsHome = getProjectsHome($db);
 		<div class="container">
 			<div class="row">
 				<div class="brand_list owl-carousel">
-					<div class="col-lg-12">
+					<div class="col-lg-12 d-flex justify-content-center ms-2 me-2">
 						<div class="brand-box">
 							<div class="brand-thumb">
 								<img src="assets/images/home/brands/axioma.svg" alt="axioma">
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-12">
+					<div class="col-lg-12 d-flex justify-content-center">
 						<div class="brand-box">
 							<div class="brand-thumb">
 								<img src="assets/images/home/brands/beck.svg" alt="beck">
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-12">
+					<div class="col-lg-12 d-flex justify-content-center">
 						<div class="brand-box">
 							<div class="brand-thumb">
 								<img src="assets/images/home/brands/campanario.svg" alt="campanario">
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-12">
+					<div class="col-lg-12 d-flex justify-content-center ms-3 me-3">
 						<div class="brand-box">
 							<div class="brand-thumb">
-								<img src="assets/images/home/brands/dm_desarrollos.svg" alt="dm desarrollos">
+								<img src="assets/images/home/brands/copachisa.svg" alt="copachisa">
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-12">
+					<div class="col-lg-12 d-flex justify-content-center ms-3 me-3">
+						<div class="brand-box">
+							<div class="brand-thumb">
+								<img src="assets/images/home/brands/DM_desarrollos.svg" alt="dm desarrollos">
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-12 d-flex justify-content-center">
 						<div class="brand-box">
 							<div class="brand-thumb">
 								<img src="assets/images/home/brands/fiesta_INN.svg" alt="fiesta inn">
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-12">
+					<div class="col-lg-12 d-flex justify-content-center">
+						<div class="brand-box">
+							<div class="brand-thumb">
+								<img src="assets/images/home/brands/inteligen.svg" alt="inteligen">
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-12 d-flex justify-content-center">
 						<div class="brand-box">
 							<div class="brand-thumb">
 								<img src="assets/images/home/brands/naya.svg" alt="naya">
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-12 d-flex justify-content-center ms-3 me-3">
+						<div class="brand-box">
+							<div class="brand-thumb">
+								<img src="assets/images/home/brands/nurban.svg" alt="nurban">
 							</div>
 						</div>
 					</div>
@@ -512,72 +533,7 @@ $projectsHome = getProjectsHome($db);
 	<!--==================================================-->
 	<!-- end solutek-faq Area -->
 	<!--==================================================-->
-
-	<!--==================================================-->
-	<!-- Start solutek contact Area -->
-	<!--==================================================-->
-	<!-- 
-
-	<div class="contact-area">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-6 col-md-7">
-					<div class="section-title text-left">
-						<h5 class="section-sub-title">CONTÁCTANOS</h5>
-						<h1 class="section-main-title">Solicita una asesoría</h1>
-						<h1 class="section-main-title">y cotiza con nosotros.</h1>
-					</div>
-					<div class="contact_from_box">
-						<form action="https://formspree.io/f/myyleorq" method="POST" id="dreamit-form">
-							<div class="row">
-								<div class="col-lg-6">
-									<div class="form_box">
-										<input type="text" name="name" placeholder="Nombre completo *">
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="form_box">
-										<input type="email" name="email" placeholder="Correo electrónico *">
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="form_box">
-										<input type="text" name="subject" placeholder="Asunto *">
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="form_box">
-										<input type="text" name="phone" placeholder="Número de teléfono *">
-									</div>
-								</div>
-								<div class="col-lg-12">
-									<div class="form_box">
-										<textarea name="message" id="message" cols="30" rows="10"
-											placeholder="Mensaje"></textarea>
-									</div>
-									<div class="quote_button">
-										<button class="btn" type="submit">ENVIAR <i
-												class="bi bi-arrow-right"></i></button>
-									</div>
-								</div>
-							</div>
-						</form>
-						<div id="status" class="error"></div>
-					</div>
-				</div>
-				<div class="col-lg-6 col-md-5">
-					&nbsp;
-				</div>
-			</div>
-		</div>
-	</div>
-
-
- -->
-	<!--==================================================-->
-	<!-- end solutek contact Area -->
-	<!--==================================================-->
-
+	
 	<!--==================================================-->
 	<!-- Start solutek address Area -->
 	<!--==================================================-->
@@ -662,8 +618,7 @@ $projectsHome = getProjectsHome($db);
 										<i class="bi bi-pin-map-fill"></i>
 									</div>
 									<div class="col-10">
-										Av Colinas del Cimatario, Colinas del Cimatario, 76090 Santiago de Querétaro,
-										Qro.
+										Santiago de Querétaro, Querétaro.
 									</div>
 								</div>
 							</li>

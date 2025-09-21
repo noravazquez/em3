@@ -131,7 +131,7 @@ $projects = getProjects($db);
 					<div class="breadcumb-content">
 						<h4>Portafolio</h4>
 						<ul class="breadcumb-list">
-							<li><a href="index.html">Inicio</a></li>
+							<li><a href="index.php">Inicio</a></li>
 							<li class="list-arrow">&lt;</li>
 							<li>Portafolio</li>
 						</ul>
@@ -167,7 +167,7 @@ $projects = getProjects($db);
 					$images = getImagesByProject($db, $p['id_proyecto']);
 					$thumbnail = !empty($images) ? "proyectos/" . $p['id_proyecto'] . "/" . $images[0]['nombre_archivo'] : "no-imagen.jpg";
 					?>
-					<div class="col-lg-6 col-sm-6 grid-item">
+					<div class="col-12 col-lg-6 grid-item">
 						<div class="case-study-single-box">
 							<div class="case-study-thumb">
 								<img src="admin/project_gallery/uploads/<?= htmlspecialchars($thumbnail); ?>" alt="<?= htmlspecialchars($p['nombre']); ?>">
@@ -304,8 +304,7 @@ $projects = getProjects($db);
 										<i class="bi bi-pin-map-fill"></i>
 									</div>
 									<div class="col-10">
-										Av Colinas del Cimatario, Colinas del Cimatario, 76090 Santiago de Querétaro,
-										Qro.
+										Santiago de Querétaro, Querétaro.
 									</div>
 								</div>
 							</li>
