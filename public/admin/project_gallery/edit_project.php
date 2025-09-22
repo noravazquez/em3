@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (!empty($_POST['eliminar_imagenes'])) {
             foreach ($_POST['eliminar_imagenes'] as $id_imagen) {
-                deleteImage($db, $id_imagen, $_SESSION['id_usuario'], $_SESSION['id_rol']);
+                deleteImage($db, $id_imagen);
             }
         }
 

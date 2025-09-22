@@ -3,7 +3,7 @@ session_start();
 
 function login($usuario, $password, $db)
 {
-    $stmt = $db->prepare("SELECT * FROM usuarios WHERE usuario = :usuario LIMIT 1");
+    $stmt = $db->prepare("SELECT * FROM usuario WHERE usuario = :usuario LIMIT 1");
     $stmt->execute(['usuario' => $usuario]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 

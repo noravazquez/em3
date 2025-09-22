@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: admin/project_gallery.php");
         exit();
     } else {
-        $error = "Usuario o contraseña incorrectos.";
+        header("Location: login.php?error=Usuario o contraseña incorrectos.");
     }
 }
 
@@ -131,6 +131,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <?php if (isset($_GET['success'])): ?>
+        <script>
+            Swal.fire({
+                title: "¡Éxito!",
+                text: "<?= htmlspecialchars($_GET['success']); ?>",
+                icon: "success",
+                timer: 3000,
+                showConfirmButton: false
+            });
+        </script>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['error'])): ?>
+        <script>
+            Swal.fire({
+                title: "Error",
+                text: "<?= htmlspecialchars($_GET['error']); ?>",
+                icon: "error",
+                showCloseButton: true
+            });
+        </script>
+    <?php endif; ?>
     <script>
         // Carousel functionality
         let currentSlide = 0;

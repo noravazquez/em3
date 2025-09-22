@@ -470,11 +470,24 @@
                 projectThumbs.innerHTML = '';
                 images.forEach(img => {
                     const path = `admin/project_gallery/uploads/proyectos/${img.id_proyecto_fk}/${img.nombre_archivo}`;
-                    projectThumbs.innerHTML += `
-                    <div class="col-12 col-lg-6">
-                        <img src="${path}" class="img-thumbnail w-100 thumb-img" alt="${nombre}">
-                    </div>
-                `;
+                    const defaultPath = 'admin/project_gallery/uploads/no-imagen.jpg';
+
+                    const div = document.createElement('div');
+                    div.className = 'col-12 col-lg-6';
+
+                    const imageEl = document.createElement('img');
+                    imageEl.src = path;
+                    imageEl.alt = nombre;
+                    imageEl.className = 'img-thumbnail w-100 thumb-img';
+
+                    // Reemplazar por default si no existe
+                    imageEl.onerror = function () {
+                        this.onerror = null; // evitar loop
+                        this.src = defaultPath;
+                    };
+
+                    div.appendChild(imageEl);
+                    projectThumbs.appendChild(div);
                 });
 
                 // Mostrar modal con jQuery (Bootstrap 4)

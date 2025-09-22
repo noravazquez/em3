@@ -5,7 +5,7 @@ function getProjectsHome($db)
             p.id_proyecto,
             p.nombre,
             p.descripcion
-        FROM proyectos p
+        FROM proyecto p
         WHERE p.estado = 'A'
         ORDER BY p.fecha_creacion DESC LIMIT 5");
 
@@ -18,7 +18,7 @@ function getProjects($db)
             p.id_proyecto,
             p.nombre,
             p.descripcion
-        FROM proyectos p
+        FROM proyecto p
         WHERE p.estado = 'A'
         ORDER BY p.fecha_creacion DESC");
 
@@ -31,7 +31,7 @@ function getImagesByProject($db, $id_proyecto)
             i.id_imagen,
             i.nombre_archivo,
             i.id_proyecto_fk
-        FROM imagenes i
+        FROM imagen i
         WHERE i.id_proyecto_fk = :id_proyecto_fk AND i.estado = 'A'");
 
     $stmt->execute(['id_proyecto_fk' => $id_proyecto]);

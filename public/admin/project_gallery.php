@@ -13,7 +13,7 @@ if (!checkAuth()) {
     exit;
 }
 
-$projects = getAllProjects($db, $_SESSION['id_rol']);
+$projects = getAllProjects($db);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,7 +55,7 @@ $projects = getAllProjects($db, $_SESSION['id_rol']);
                         <a href="./project_gallery.php" class="bg-accent text-white px-3 py-2 rounded-md text-sm font-medium">
                             Proyectos
                         </a>
-                        <?php if($_SESSION['id_rol'] == 1):?>
+                        <?php if ($_SESSION['id_rol'] == 1): ?>
                             <a href="./user_list.php" class="text-text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
                                 Usuarios
                             </a>
@@ -157,7 +157,7 @@ $projects = getAllProjects($db, $_SESSION['id_rol']);
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M3 15a4 4 0 014-4h1a4 4 0 018 0h1a4 4 0 110 8H7a4 4 0 01-4-4z" />
                                     </svg>
-                                    <span class="text-sm text-text-secondary">Click o arrastra imágenes para subir</span>
+                                    <span class="text-sm text-text-secondary">Click para subir imágenes</span>
                                 </label>
                             </div>
 
@@ -202,10 +202,12 @@ $projects = getAllProjects($db, $_SESSION['id_rol']);
             <?php else: ?>
                 <?php foreach ($projects as $p): ?>
                     <?php
-                    $images = getImagesByProject($db, $p['id_proyecto'], $_SESSION['id_rol']);
+                    $images = getImagesByProject($db, $p['id_proyecto']);
                     $thumbnail = !empty($images) ? "proyectos/" . $p['id_proyecto'] . "/" . $images[0]['nombre_archivo'] : "no-imagen.jpg";
-                    $fechaObj = new DateTime($p['fecha_creacion']);
-                    $fechaFormateada = $fechaObj->format('d/m/Y H:i');
+                    $fechaCreacionObj = new DateTime($p['fecha_creacion']);
+                    $fechaCreacionFormateada = $fechaCreacionObj->format('d/m/Y H:i');
+                    $fechaModificacionObj = new DateTime($p['fecha_creacion']);
+                    $fechaModificacionFormateada = $fechaModificacionObj->format('d/m/Y H:i');
                     ?>
                     <div class="project-card card group">
                         <div class="relative overflow-hidden rounded-lg mb-4">
@@ -216,11 +218,19 @@ $projects = getAllProjects($db, $_SESSION['id_rol']);
                             <div class="flex items-center">
                                 <h3 class="text-lg font-inter font-semibold text-primary"><?= htmlspecialchars($p['nombre']); ?></h3>
                             </div>
-                            <div class="flex items-center justify-between pt-2">
+                            <div class="flex flex-col pt-2 space-y-1">
                                 <div class="flex items-center space-x-2">
-                                    <span class="text-xs text-text-secondary"><?= htmlspecialchars($p['usuario_creador']); ?></span>
+                                    <span class="text-xs text-text-secondary">
+                                        Creado por <b><?= htmlspecialchars($p['usuario_creador']); ?></b> el <?= htmlspecialchars($fechaCreacionFormateada); ?>
+                                    </span>
                                 </div>
-                                <span class="text-xs text-text-secondary"><?= htmlspecialchars($fechaFormateada); ?></span>
+                                <?php if (!empty($p['usuario_modificador']) && !empty($fechaModificacionFormateada)) : ?>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-xs text-text-secondary">
+                                            Modificado por <b><?= htmlspecialchars($p['usuario_modificador']); ?></b> el <?= htmlspecialchars($fechaModificacionFormateada); ?>
+                                        </span>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="flex items-center justify-center gap-3 pt-2 card-buttons">
@@ -284,7 +294,7 @@ $projects = getAllProjects($db, $_SESSION['id_rol']);
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M3 15a4 4 0 014-4h1a4 4 0 018 0h1a4 4 0 110 8H7a4 4 0 01-4-4z" />
                                     </svg>
-                                    <span class="text-sm text-text-secondary">Click o arrastra imágenes para subir</span>
+                                    <span class="text-sm text-text-secondary">Click para subir imágenes</span>
                                 </label>
                             </div>
 
@@ -423,6 +433,11 @@ $projects = getAllProjects($db, $_SESSION['id_rol']);
                         const imageEl = document.createElement('img');
                         imageEl.src = `./project_gallery/uploads/proyectos/${img.id_proyecto_fk}/${img.nombre_archivo}`;
                         imageEl.className = 'w-full h-full object-cover';
+
+                        imageEl.onerror = function() {
+                            this.onerror = null; // Evitar loop infinito
+                            this.src = './project_gallery/uploads/no-imagen.jpg';
+                        };
 
                         // Checkbox en misma posición que la "x"
                         const checkbox = document.createElement('input');

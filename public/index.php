@@ -77,7 +77,7 @@ $projectsHome = getProjectsHome($db);
 							<li><a href="about-us.html">Sobre nosotros</a></li>
 							<li><a href="project.php">Portafolio</a></li>
 							<li><a href="service.html">Servicios</a></li>
-							<li><a href="contact.html">Contacto</a></li>
+							<li><a href="contact.php">Contacto</a></li>
 						</ul>
 					</nav>
 				</div>
@@ -99,7 +99,7 @@ $projectsHome = getProjectsHome($db);
 					<li><a href="about-us.html">Sobre nosotros</a></li>
 					<li><a href="project.php">Portafolio</a></li>
 					<li><a href="service.html">Servicios</a></li>
-					<li><a href="contact.html">Contacto</a></li>
+					<li><a href="contact.php">Contacto</a></li>
 					<li><a href="login.php">Iniciar sesion</a></li>
 				</ul>
 			</nav>
@@ -381,7 +381,11 @@ $projectsHome = getProjectsHome($db);
 						<div class="col-lg-12 col-md-12">
 							<div class="project-single-box">
 								<div class="project-thumb">
-									<img src="admin/project_gallery/uploads/<?= htmlspecialchars($thumbnail); ?>" alt="<?= htmlspecialchars($p['nombre']); ?>">
+									<img src="<?= htmlspecialchars(
+													(!empty($thumbnail) && file_exists("admin/project_gallery/uploads/" . $thumbnail))
+														? "admin/project_gallery/uploads/" . $thumbnail
+														: "admin/project_gallery/uploads/no-imagen.jpg"
+												); ?>" alt="<?= htmlspecialchars($p['nombre']); ?>">
 								</div>
 								<div class="project-content">
 									<h3 class="project-title"><a><?= htmlspecialchars($p['nombre']); ?></a></h3>
@@ -533,7 +537,7 @@ $projectsHome = getProjectsHome($db);
 	<!--==================================================-->
 	<!-- end solutek-faq Area -->
 	<!--==================================================-->
-	
+
 	<!--==================================================-->
 	<!-- Start solutek address Area -->
 	<!--==================================================-->
@@ -556,7 +560,7 @@ $projectsHome = getProjectsHome($db);
 							<img src="assets/images/address2.png" alt="address1">
 						</div>
 						<div class="solutek-btn">
-							<a href="contact.html">442 224 22 94
+							<a href="contact.php">442 224 22 94
 								<div class="solutek-hover-btn hover-bx"></div>
 								<div class="solutek-hover-btn hover-bx2"></div>
 								<div class="solutek-hover-btn hover-bx3"></div>
@@ -600,7 +604,7 @@ $projectsHome = getProjectsHome($db);
 						</div>
 						<ul>
 							<li><a href="about-us.html">Sobre nosotros</a></li>
-							<li><a href="contact.html">Contáctanos</a></li>
+							<li><a href="contact.php">Contáctanos</a></li>
 							<li><a href="service.html">Nuestros servicios</a></li>
 							<li><a href="project.php">Portafolio</a></li>
 						</ul>

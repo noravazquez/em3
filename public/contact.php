@@ -72,7 +72,7 @@
 							<li><a href="about-us.html">Sobre nosotros</a></li>
 							<li><a href="project.php">Portafolio</a></li>
 							<li><a href="service.html">Servicios</a></li>
-							<li><a href="contact.html">Contacto</a></li>
+							<li><a href="contact.php">Contacto</a></li>
 						</ul>
 					</nav>
 				</div>
@@ -94,7 +94,7 @@
 					<li><a href="about-us.html">Sobre nosotros</a></li>
 					<li><a href="project.php">Portafolio</a></li>
 					<li><a href="service.html">Servicios</a></li>
-					<li><a href="contact.html">Contacto</a></li>
+					<li><a href="contact.php">Contacto</a></li>
 					<li><a href="login.php">Iniciar sesion</a></li>
 				</ul>
 			</nav>
@@ -149,7 +149,7 @@
 						<h1 class="section-main-title">y cotiza con nosotros.</h1>
 					</div>
 					<div class="contact_from_box">
-						<form action="https://formspree.io/f/myyleorq" method="POST" id="dreamit-form">
+						<form action="./contact/contact.php" method="POST" id="dreamit-form">
 							<div class="row">
 								<div class="col-lg-6">
 									<div class="form_box">
@@ -237,7 +237,7 @@
 							<img src="assets/images/address2.png" alt="address1">
 						</div>
 						<div class="solutek-btn">
-							<a href="contact.html">442 224 22 94
+							<a href="contact.php">442 224 22 94
 								<div class="solutek-hover-btn hover-bx"></div>
 								<div class="solutek-hover-btn hover-bx2"></div>
 								<div class="solutek-hover-btn hover-bx3"></div>
@@ -284,7 +284,7 @@
 						</div>
 						<ul>
 							<li><a href="about-us.html">Sobre nosotros</a></li>
-							<li><a href="contact.html">Contáctanos</a></li>
+							<li><a href="contact.php">Contáctanos</a></li>
 							<li><a href="service.html">Nuestros servicios</a></li>
 							<li><a href="project.php">Portafolio</a></li>
 						</ul>
@@ -392,6 +392,29 @@
 	<script src="assets/js/splide.min.js"></script>
 	<!-- theme js -->
 	<script src="assets/js/theme.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <?php if (isset($_GET['success'])): ?>
+        <script>
+            Swal.fire({
+                title: "¡Éxito!",
+                text: "<?= htmlspecialchars($_GET['success']); ?>",
+                icon: "success",
+                timer: 3000,
+                showConfirmButton: false
+            });
+        </script>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['error'])): ?>
+        <script>
+            Swal.fire({
+                title: "Error",
+                text: "<?= htmlspecialchars($_GET['error']); ?>",
+                icon: "error",
+                showCloseButton: true
+            });
+        </script>
+    <?php endif; ?>
 </body>
 
 </html>

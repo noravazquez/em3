@@ -78,7 +78,7 @@ $projects = getProjects($db);
 							<li><a href="about-us.html">Sobre nosotros</a></li>
 							<li><a href="project.php">Portafolio</a></li>
 							<li><a href="service.html">Servicios</a></li>
-							<li><a href="contact.html">Contacto</a></li>
+							<li><a href="contact.php">Contacto</a></li>
 						</ul>
 					</nav>
 				</div>
@@ -101,7 +101,7 @@ $projects = getProjects($db);
 					<li><a href="about-us.html">Sobre nosotros</a></li>
 					<li><a href="project.php">Portafolio</a></li>
 					<li><a href="service.html">Servicios</a></li>
-					<li><a href="contact.html">Contacto</a></li>
+					<li><a href="contact.php">Contacto</a></li>
 					<li><a href="login.php">Iniciar sesion</a></li>
 				</ul>
 			</nav>
@@ -170,7 +170,11 @@ $projects = getProjects($db);
 					<div class="col-12 col-lg-6 grid-item">
 						<div class="case-study-single-box">
 							<div class="case-study-thumb">
-								<img src="admin/project_gallery/uploads/<?= htmlspecialchars($thumbnail); ?>" alt="<?= htmlspecialchars($p['nombre']); ?>">
+								<img src="<?= htmlspecialchars(
+												(!empty($thumbnail) && file_exists("admin/project_gallery/uploads/" . $thumbnail))
+													? "admin/project_gallery/uploads/" . $thumbnail
+													: "admin/project_gallery/uploads/no-imagen.jpg"
+											); ?>" alt="<?= htmlspecialchars($p['nombre']); ?>">
 							</div>
 							<div class="case-study-content row">
 								<div class="case-study-title col-10">
@@ -239,7 +243,7 @@ $projects = getProjects($db);
 							<img src="assets/images/address2.png" alt="address1">
 						</div>
 						<div class="solutek-btn">
-							<a href="contact.html">442 224 22 94
+							<a href="contact.php">442 224 22 94
 								<div class="solutek-hover-btn hover-bx"></div>
 								<div class="solutek-hover-btn hover-bx2"></div>
 								<div class="solutek-hover-btn hover-bx3"></div>
@@ -286,7 +290,7 @@ $projects = getProjects($db);
 						</div>
 						<ul>
 							<li><a href="about-us.html">Sobre nosotros</a></li>
-							<li><a href="contact.html">Contáctanos</a></li>
+							<li><a href="contact.php">Contáctanos</a></li>
 							<li><a href="service.html">Nuestros servicios</a></li>
 							<li><a href="project.php">Portafolio</a></li>
 						</ul>

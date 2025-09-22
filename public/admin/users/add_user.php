@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: ../user_list.php?success=Usuario guardado correctamente.");
         exit();
     } else {
-        header("Location: ../user_list.php?error=Error al guardar el usuario.");
+        header("Location: ../user_list.php?error=Error al guardar el usuario, el usuario ya existe.");
         exit();
     }
 }
