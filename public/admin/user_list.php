@@ -55,9 +55,6 @@ $roles = getAllRoles($db);
                 <!-- Navigation -->
                 <nav class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
-                        <!-- <a href="./dashboard.php" class="text-text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                            Inicio
-                        </a> -->
                         <a href="./project_gallery.php" class="text-text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
                             Proyectos
                         </a>
@@ -72,7 +69,7 @@ $roles = getAllRoles($db);
                     <!-- User Profile -->
                     <div class="relative">
                         <button id="userMenuButton" class="flex items-center space-x-3 text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-accent-500">
-                            <img class="h-8 w-8 rounded-full object-cover" src="../assets/images/dashboard/user.png" alt="User Avatar" />
+                            <img class="h-8 w-8 rounded-full object-cover" src="../assets/images/user.png" alt="User Avatar" />
                             <span class="hidden md:block font-medium text-text-primary" id="userName"><?php echo $_SESSION['usuario']; ?></span>
                             <svg class="w-4 h-4 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -98,7 +95,6 @@ $roles = getAllRoles($db);
         <!-- Mobile Navigation -->
         <div id="mobileMenu" class="hidden md:hidden bg-surface border-t border-neutral-200">
             <div class="px-2 pt-2 pb-3 space-y-1">
-                <!-- <a href="./dashboard.php" class="text-text-secondary hover:text-primary block px-3 py-2 rounded-md text-base font-medium">Inicio</a> -->
                 <a href="./project_gallery.php" class="text-text-secondary hover:text-primary block px-3 py-2 rounded-md text-base font-medium">Proyectos</a>
                 <a href="./user_list.php" class="bg-accent-50 text-accent block px-3 py-2 rounded-md text-base font-medium">Usuarios</a>
             </div>

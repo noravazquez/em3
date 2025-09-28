@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     $extension = strtolower(pathinfo($_FILES['imagenes']['name'][$i], PATHINFO_EXTENSION));
 
-                    $nombre_final = "img_{$id_proyecto}_{$fecha}_{$contador}." . $extension;
+                    $nombre_final = uniqid() . "_" . "img_{$id_proyecto}_{$fecha}_{$contador}." . $extension;
 
                     if (move_uploaded_file($tmpFile, $upload_dir . $nombre_final)) {
                         addImage($db, $id_proyecto, $nombre_final, $_SESSION['id_usuario']);

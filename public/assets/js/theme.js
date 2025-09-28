@@ -43,9 +43,8 @@
         smartSpeed: 2500,
         autoplayTimeout: 6500,
         dots: false,
-        nav: true,
+        nav: false,
         margin: 30,
-        navText: ["next", "prev"],
         responsive: {
             320: {
                 items: 1
@@ -472,13 +471,12 @@
                     const path = `admin/project_gallery/uploads/proyectos/${img.id_proyecto_fk}/${img.nombre_archivo}`;
                     const defaultPath = 'admin/project_gallery/uploads/no-imagen.jpg';
 
-                    const div = document.createElement('div');
-                    div.className = 'col-12 col-lg-6';
-
                     const imageEl = document.createElement('img');
                     imageEl.src = path;
                     imageEl.alt = nombre;
                     imageEl.className = 'img-thumbnail w-100 thumb-img';
+                    imageEl.style.height = 'auto';
+                    imageEl.style.objectFit = 'contain';
 
                     // Reemplazar por default si no existe
                     imageEl.onerror = function () {
@@ -486,19 +484,13 @@
                         this.src = defaultPath;
                     };
 
-                    div.appendChild(imageEl);
-                    projectThumbs.appendChild(div);
+                    projectThumbs.appendChild(imageEl);
                 });
 
                 // Mostrar modal con jQuery (Bootstrap 4)
                 $('#modal-project-details').modal('show');
             });
         });
-
-        document.getElementById('close-project').addEventListener('click', function () {
-            $('#modal-project-details').modal('hide');
-        });
-
     });
 
 

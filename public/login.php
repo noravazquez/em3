@@ -54,10 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <!-- Slide 3 -->
-                <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-1000">
+                <!-- <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-1000">
                     <img src="https://images.pixabay.com/photo/2017/07/09/03/19/home-2486092_1280.jpg" alt="Contemporary Building" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
                     <div class="absolute inset-0 bg-primary opacity-60"></div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

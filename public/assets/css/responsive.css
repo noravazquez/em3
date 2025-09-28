@@ -70,7 +70,7 @@
     }
 
     .hero-area.style-three .hero-contant {
-        padding-top: 130px;
+        padding-top: 0;
         padding-left: 50px;
     }
 
@@ -80,14 +80,6 @@
 
     .about-section .about-thumb {
         margin-left: -28px;
-    }
-
-    .hero-active .owl-prev {
-        left: 30px;
-    }
-
-    .hero-active .owl-next {
-        left: 30px;
     }
 
     /*inner page */
@@ -337,24 +329,6 @@
 
     .splide__arrows--ttb .splide__arrow {
         left: -13%;
-    }
-
-    .hero-active .owl-prev {
-        left: 30px;
-    }
-
-    .hero-active .owl-next {
-        left: 30px;
-    }
-
-    .hero-active .owl-prev::before {
-        left: 16px;
-        bottom: 220px;
-    }
-
-    .hero-active .owl-prev::after {
-        left: 16px;
-        bottom: 55px;
     }
 
     /*inner page */
@@ -659,7 +633,7 @@
     }
 
     .hero-area.style-three .hero-contant {
-        padding-top: 130px;
+        padding-top: 0;
         padding-left: 20px;
     }
 
@@ -706,16 +680,6 @@
 
     .faq-area.style-two .faq-thumb {
         right: -20px;
-    }
-
-    .hero-active .owl-prev {
-        top: 190px;
-        left: 20px;
-    }
-
-    .hero-active .owl-next {
-        bottom: 190px;
-        left: 20px;
     }
 
     /* inner page responsive */
@@ -1204,13 +1168,13 @@
     }
 
     .hero-area.style-three .hero-contant h1 {
-        font-size: 42px;
-        line-height: 50px;
+        font-size: 40px;
+        line-height: 40px;
     }
 
     .hero-area.style-three .hero-contant span {
-        font-size: 42px;
-        line-height: 50px;
+        font-size: 40px;
+        line-height: 40px;
     }
 
     .owl-nav {
@@ -1289,16 +1253,6 @@
 
     .faq-area.style-two h1.section-main-title {
         font-size: 34px;
-    }
-
-    .hero-active .owl-prev {
-        top: 190px;
-        left: 10px;
-    }
-
-    .hero-active .owl-next {
-        bottom: 190px;
-        left: 10px;
     }
 
     /* inner page */
@@ -1841,7 +1795,7 @@
 
     .hero-area.style-three .hero-contant h1 {
         font-size: 50px;
-        line-height: 60px;
+        line-height: 50px;
     }
 
     .hero-area.style-three .hero-thumb-shape {
@@ -1849,7 +1803,7 @@
     }
 
     .hero-area.style-three .hero-img img {
-        display: none;
+        /* display: none; */
         width: 100%;
     }
 
@@ -1937,14 +1891,6 @@
 
     .faq-area.style-two .faq-thumb img {
         width: 100%;
-    }
-
-    .hero-active .owl-prev {
-        display: none;
-    }
-
-    .hero-active .owl-next {
-        display: none;
     }
 
     /* inner page */
@@ -2129,6 +2075,10 @@
 
     .blog-details-author-talk {
         padding: 41px 30px 40px;
+    }
+
+    .masonry {
+        column-count: 1;
     }
 
 }
@@ -2479,12 +2429,12 @@
 
     .hero-area.style-three .hero-img img {
         width: 100%;
-        display: none;
+        /* display: none; */
     }
 
     .hero-area.style-three .hero-contant h1 {
         font-size: 50px;
-        line-height: 60px;
+        line-height: 50px;
     }
 
     .hero-area.style-three .hero-contant p {
@@ -2611,14 +2561,6 @@
 
     .blog-area.style-two .blog-box-content h3 a {
         font-size: 20px;
-    }
-
-    .hero-active .owl-prev {
-        display: none;
-    }
-
-    .hero-active .owl-next {
-        display: none;
     }
 
     /* inner page */
@@ -2829,6 +2771,9 @@
         margin-bottom: 20px;
     }
 
+    .masonry {
+        column-count: 1;
+    }
 }
 
 
@@ -3244,12 +3189,12 @@
 
     .hero-area.style-three .hero-contant h1 {
         font-size: 40px;
-        line-height: 55px;
+        line-height: 40px;
     }
 
     .hero-area.style-three .hero-contant span {
         font-size: 40px;
-        line-height: 55px;
+        line-height: 40px;
     }
 
     .hero-area.style-three .hero-img img {
@@ -3267,10 +3212,6 @@
 
     .hero-area.style-three .hero-left-shape img {
         width: 60%;
-    }
-
-    .hero-area.style-three .hero-img img {
-        display: none;
     }
 
     .our-service-section {
@@ -3393,14 +3334,6 @@
 
     .faq-area.style-two .faq-thumb {
         right: 0;
-    }
-
-    .hero-active .owl-prev {
-        display: none;
-    }
-
-    .hero-active .owl-next {
-        display: none;
     }
 
     /* inner page */
@@ -3653,6 +3586,9 @@
         height: 350px;
     }
 
+    .masonry {
+        column-count: 1;
+    }
 }
 
 /* small mobile :320px. */
@@ -4120,12 +4056,12 @@
 
     .hero-area.style-three .hero-contant h1 {
         font-size: 35px;
-        line-height: 45px;
+        line-height: 35px;
     }
 
     .hero-area.style-three .hero-contant span {
         font-size: 35px;
-        line-height: 45px;
+        line-height: 35px;
     }
 
     .hero-area.style-three .hero-left-side {
@@ -4297,15 +4233,6 @@
     .blog-area.style-two h1.section-main-title2 {
         font-size: 36px;
     }
-
-    .hero-active .owl-prev {
-        display: none;
-    }
-
-    .hero-active .owl-next {
-        display: none;
-    }
-
 
     /* inner page */
     .breadcumb-area {
@@ -4661,6 +4588,10 @@
 
     .blog-details-thumb img {
         margin-bottom: 20px;
+    }
+
+    .masonry {
+        column-count: 1;
     }
 
 }

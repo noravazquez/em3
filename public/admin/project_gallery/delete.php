@@ -20,7 +20,7 @@ if (!$id_proyecto) {
     exit();
 }
 
-if (deleteProject($db, $id_proyecto)) {
+if (deleteProject($db, $id_proyecto, $_SESSION['id_rol'])) {
     header("Location: ../project_gallery.php?success=Proyecto eliminado");
 } else {
      header("Location: ../project_gallery.php?error=Error al eliminar proyecto");

@@ -55,22 +55,21 @@ $projectsHome = getProjectsHome($db);
 
 	<!--==================================================-->
 	<!-- Start solutek Main Menu Area -->
-	<!-- LISTOOOOOOO -->
 	<!--==================================================-->
-	<div id="sticky-header" class="solutek_nav_manu">
+	<div id="sticky-header" class="solutek_nav_manu style-three">
 		<div class="container-fluid">
 			<div class="row d-flex align-items-center">
 				<div class="col-lg-2">
 					<div class="logo">
 						<a class="logo_img" href="index.php" title="solutek">
-							<img src="assets/images/logo_menu.svg" alt="logo">
+							<img style="height: 75px;" src="assets/images/em3_logo.svg" alt="logo">
 						</a>
 						<a class="main_sticky" href="index.php" title="solutek">
-							<img src="assets/images/logo_menu.svg" alt="astute">
+							<img src="assets/images/logo_menu.svg" alt="logo">
 						</a>
 					</div>
 				</div>
-				<div class="col-lg-8">
+				<div class="col-lg-7">
 					<nav class="solutek_menu">
 						<ul class="nav_scroll">
 							<li><a href="index.php">Inicio</a></li>
@@ -81,14 +80,17 @@ $projectsHome = getProjectsHome($db);
 						</ul>
 					</nav>
 				</div>
-				<div class="col-lg-2">
-					<div class="header-btn">
-						<a href="login.php">Iniciar sesion <i class="bi bi-arrow-right"></i></a>
+				<div class="col-lg-3">
+					<div class="header-menu-btn">
+						<div class="solutek-btn">
+							<a class="btn-2" href="login.php">Iniciar sesión</a>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 
 	<!-- solutek Mobile Menu Area -->
 	<div class="mobile-menu-area sticky d-sm-block d-md-block d-lg-none ">
@@ -109,6 +111,7 @@ $projectsHome = getProjectsHome($db);
 	<!-- End solutek Main Menu Area -->
 	<!--==================================================-->
 
+
 	<!--==================================================-->
 	<!-- Start Curser Section Here -->
 	<!--==================================================-->
@@ -119,38 +122,132 @@ $projectsHome = getProjectsHome($db);
 	<!--==================================================-->
 
 	<!--==================================================-->
-	<!-- Start solutek hero Area -->
+	<!-- Start solutek hero Area style-three-->
 	<!--==================================================-->
-	<div class="hero-area d-flex align-items-center">
-		<div class="container">
-			<div class="row hero align-items-center">
-				<div class="col-lg-6">
-					<div class="hero-contant">
-						<h5>Em3 - Construcciones</h5>
-						<h1>EMPRESA ORGULLOSAMENTE MEXICANA</h1>
-						<h1>¡Todo para tu proyecto!</h1>
-						<p>Desarrollar y perfeccionar al grado máximo la creatividad en la arquitectura y construcción
-						</p>
-						<div class="solutek-btn">
-							<a href="about-us.html">Explora más
-								<div class="solutek-hover-btn hover-bx"></div>
-								<div class="solutek-hover-btn hover-bx2"></div>
-								<div class="solutek-hover-btn hover-bx3"></div>
-								<div class="solutek-hover-btn hover-bx4"></div>
-							</a>
+
+	<div class="hero-active owl-carousel">
+		<div class="hero-area style-three d-flex align-items-center">
+			<div class="container">
+				<div class="row hero align-items-center">
+					<div class="col-md-5">
+						<div class="hero-contant">
+							<h1>EMPRESA </h1>
+							<span class="fs-2">ORGULLOSAMENTE </span>
+							<h1>MEXICANA</h1>
+							<p>Desarrollar y perfeccionar al grado máximo la creatividad en la arquitectura y construcción</p>
+							<div class="hero-left-shape">
+								<img src="assets/images/hero-geo.png" alt="shape">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-7">
+						<div class="hero-thumb-3">
+							<div class="hero-img">
+								<img src="assets/images/home/slide/slide1.png" alt="thumb">
+							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-6">
-					<div class="hero-thumb">
-						<img src="./assets/images/home/hero_thumb.jpg" alt="hero-thumb">
+			</div>
+		</div>
+		<div class="hero-area style-three d-flex align-items-center">
+			<div class="container">
+				<div class="row hero align-items-center">
+					<div class="col-md-5">
+						<div class="hero-contant">
+							<h1 class="fs-2">CONSTRUIMOS EL </h1>
+							<span>MÉXICO</span>
+							<h1 class="fs-2"> DEL MAÑANA</h1>
+							<p>Con pasión, precisión y respeto por nuestras raíces</p>
+							<div class="hero-left-shape">
+								<img src="assets/images/hero-geo.png" alt="shape">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-7">
+						<div class="hero-thumb-3">
+							<div class="hero-img">
+								<img src="assets/images/home/slide/slide2.png" alt="thumb">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="hero-area style-three d-flex align-items-center">
+			<div class="container">
+				<div class="row hero align-items-center">
+					<div class="col-md-5">
+						<div class="hero-contant">
+							<h1>DONDE OTROS VEN </h1>
+							<span>PLANOS</span>
+							<p>Nosotros vemos la posibilidad de crear algo extraordinario y profundamente humano</p>
+							<div class="hero-left-shape">
+								<img src="assets/images/hero-geo.png" alt="shape">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-7">
+						<div class="hero-thumb-3">
+							<div class="hero-img">
+								<img src="assets/images/home/slide/slide3.png" alt="thumb">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="hero-area style-three d-flex align-items-center">
+			<div class="container">
+				<div class="row hero align-items-center">
+					<div class="col-md-5">
+						<div class="hero-contant">
+							<h1>SOMOS MÁS QUE </h1>
+							<span class="fs-2">CONSTRUCTORES: </span>
+							<p>Somos arquitectos de sueños, diseñadores de experiencias y forjadores de futuro</p>
+							<div class="hero-left-shape">
+								<img src="assets/images/hero-geo.png" alt="shape">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-7">
+						<div class="hero-thumb-3">
+							<div class="hero-img">
+								<img src="assets/images/home/slide/slide4.png" alt="thumb">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="hero-area style-three d-flex align-items-center">
+			<div class="container">
+				<div class="row hero align-items-center">
+					<div class="col-md-5">
+						<div class="hero-contant">
+							<h1>Excelencia </h1>
+							<span>en cada </span>
+							<h1>detalle</h1>
+							<p>Una historia en cada estructura</p>
+							<div class="hero-left-shape">
+								<img src="assets/images/hero-geo.png" alt="shape">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-7">
+						<div class="hero-thumb-3">
+							<div class="hero-img">
+								<img src="assets/images/home/slide/slide5.png" alt="thumb">
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 	<!--==================================================-->
-	<!-- end solutek hero Area -->
+	<!-- end solutek hero Area style-three -->
 	<!--==================================================-->
 
 	<!--==================================================-->

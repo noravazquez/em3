@@ -63,27 +63,29 @@ function updateProject($db, $data)
     ]);
 }
 
-function deleteProject($db, $id_proyecto)
+function deleteProject($db, $id_proyecto, $id_rol)
 {
-    $stmt = $db->prepare("SELECT id_imagen FROM imagen WHERE id_proyecto_fk = :id_proyecto");
-    $stmt->execute(["id_proyecto" => $id_proyecto]);
-    $imagenes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if ($id_rol == 2) {
+        $stmt = $db->prepare("SELECT id_imagen FROM imagen WHERE id_proyecto_fk = :id_proyecto");
+        $stmt->execute(["id_proyecto" => $id_proyecto]);
+        $imagenes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    foreach ($imagenes as $img) {
-        deleteImage($db, $img['id_imagen']);
-    }
+        foreach ($imagenes as $img) {
+            deleteImage($db, $img['id_imagen']);
+        }
 
-    $stmt = $db->prepare("
+        $stmt = $db->prepare("
             DELETE FROM proyecto WHERE id_proyecto = :id_proyecto
         ");
-    $result = $stmt->execute([
-        "id_proyecto" => $id_proyecto
-    ]);
+        $result = $stmt->execute([
+            "id_proyecto" => $id_proyecto
+        ]);
 
-    $dirPath = __DIR__ . "/../public/admin/project_gallery/uploads/proyecto/" . $id_proyecto;
-    if (is_dir($dirPath)) {
-        array_map('unlink', glob("$dirPath/*.*"));
-        rmdir($dirPath);
+        $dirPath = __DIR__ . "/../public/admin/project_gallery/uploads/proyecto/" . $id_proyecto;
+        if (is_dir($dirPath)) {
+            array_map('unlink', glob("$dirPath/*.*"));
+            rmdir($dirPath);
+        }
+        return $result;
     }
-    return $result;
 }

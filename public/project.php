@@ -212,7 +212,7 @@ $projects = getProjects($db);
 					<p id="project-description" class="text-muted mb-4">Descripción del proyecto...</p>
 
 					<!-- Carrusel de imágenes -->
-					<div id="project-thumbs" class="row g-2"></div>
+					<div id="project-thumbs" class="masonry"></div>
 				</div>
 			</div>
 		</div>
@@ -396,6 +396,12 @@ $projects = getProjects($db);
 	<script src="assets/js/splide.min.js"></script>
 	<!-- theme js -->
 	<script src="assets/js/theme.js"></script>
+
+	<script>
+		document.getElementById('close-project').addEventListener('click', function() {
+			$('#modal-project-details').modal('hide');
+		});
+	</script>
 </body>
 
 </html>
