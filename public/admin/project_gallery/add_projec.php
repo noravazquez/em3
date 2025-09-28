@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (addProject($db, $data)) {
         $id_proyecto = $db->lastInsertId('proyectos_id_proyecto_seq');
 
-        $upload_dir = __DIR__ . "./uploads/proyectos/" . $id_proyecto . "/";
+        $upload_dir = __DIR__ . "/uploads/proyectos/" . $id_proyecto . "/";
         if (!file_exists($upload_dir)) {
             mkdir($upload_dir, 0777, true);
         }

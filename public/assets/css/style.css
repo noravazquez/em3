@@ -4932,7 +4932,18 @@ start solutek team Area style-two
   background: #050a1e;
 }
 
+.masonry {
+  column-count: 2;
+  column-gap: 1rem;
+}
 
+.masonry img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+}
 /*---=====================================================
    start solutek working proces area 
 =========================================================---*/

@@ -65,7 +65,7 @@ function updateProject($db, $data)
 
 function deleteProject($db, $id_proyecto, $id_rol)
 {
-    if ($id_rol == 2) {
+    if ($id_rol == 1) {
         $stmt = $db->prepare("SELECT id_imagen FROM imagen WHERE id_proyecto_fk = :id_proyecto");
         $stmt->execute(["id_proyecto" => $id_proyecto]);
         $imagenes = $stmt->fetchAll(PDO::FETCH_ASSOC);
